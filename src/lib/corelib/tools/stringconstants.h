@@ -138,6 +138,7 @@ public:
     QBS_STRING_CONSTANT(prefixProperty, "prefix")
     QBS_STRING_CONSTANT(prepareProperty, "prepare")
     QBS_STRING_CONSTANT(presentProperty, "present")
+    QBS_STRING_CONSTANT(providers, "providers")
     QBS_STRING_CONSTANT(priorityProperty, "priority")
     QBS_STRING_CONSTANT(profileProperty, "profile")
     static const QString &profilesProperty() { return profiles(); }

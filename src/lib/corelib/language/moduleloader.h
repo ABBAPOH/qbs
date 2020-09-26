@@ -315,10 +315,12 @@ private:
     Item *loadModule(ProductContext *productContext, Item *exportingProductItem, Item *item,
             const CodeLocation &dependsItemLocation, const QString &moduleId,
             const QualifiedId &moduleName, const QString &multiplexId, FallbackMode fallbackMode,
-            bool isRequired, bool *isProductDependency, QVariantMap *defaultParameters);
+            const QStringList &providers, bool isRequired, bool *isProductDependency,
+            QVariantMap *defaultParameters);
     Item *searchAndLoadModuleFile(ProductContext *productContext,
             const CodeLocation &dependsItemLocation, const QualifiedId &moduleName,
-            FallbackMode fallbackMode, bool isRequired, Item *moduleInstance);
+            FallbackMode fallbackMode, const QStringList &providers, bool isRequired,
+            Item *moduleInstance);
     QStringList &getModuleFileNames(const QString &dirPath);
     std::pair<Item *, bool> loadModuleFile(
             ProductContext *productContext, const QString &fullModuleName,
@@ -354,8 +356,13 @@ private:
         bool providerFound = false;
         bool providerAddedSearchPaths = false;
     };
+    std::pair<QString /*file*/, QString /*provider*/> findModuleProviderFile(
+            const QualifiedId &name,
+            ModuleProviderLookup lookupType,
+            const QStringList &providers);
     ModuleProviderResult findModuleProvider(const QualifiedId &name, ProductContext &product,
-            ModuleProviderLookup lookupType, const CodeLocation &dependsItemLocation);
+            ModuleProviderLookup lookupType, const QStringList &providers,
+            const CodeLocation &dependsItemLocation);
     QVariantMap moduleProviderConfig(ProductContext &product);
 
     static void setScopeForDescendants(Item *item, Item *scope);

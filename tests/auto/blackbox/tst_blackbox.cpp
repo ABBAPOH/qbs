@@ -5797,6 +5797,47 @@ void TestBlackbox::protobufLibraryInstall()
             QFileInfo::exists(installRootInclude + "/hello/world.pb.h"));
 }
 
+void TestBlackbox::providersSelection()
+{
+    QFETCH(QStringList, properties);
+    QFETCH(QString, define);
+
+    QDir::setCurrent(testDataDir + "/providers-selection");
+
+    rmDirR(relativeBuildDir());
+    QbsRunParameters params;
+    params.arguments = properties;
+    QCOMPARE(runQbs(params), 0);
+    QVERIFY2(m_qbsStdout.contains(("p1.qbsmetatestmodule.prop: " + define).toUtf8()), m_qbsStdout);
+    QVERIFY2(m_qbsStdout.contains(("p2.qbsmetatestmodule.prop: " + define).toUtf8()), m_qbsStdout);
+    QVERIFY2(m_qbsStdout.contains(("p3.qbsmetatestmodule.prop: " + define).toUtf8()), m_qbsStdout);
+}
+
+void TestBlackbox::providersSelection_data()
+{
+    QTest::addColumn<QStringList>("properties");
+    QTest::addColumn<QString>("define");
+
+    QTest::newRow("default") << QStringList() << "module_a";
+    QTest::newRow("override")
+            << QStringList("projects.project.wantedProviders:provider-b") << "module_b";
+    QTest::newRow("override list a")
+            << QStringList("projects.project.wantedProviders:provider-a,provider-b")
+            << "module_a";
+    QTest::newRow("override list b")
+            << QStringList("projects.project.wantedProviders:provider-b,provider-a")
+            << "module_b";
+}
+
+void TestBlackbox::providersProperties()
+{
+    QDir::setCurrent(testDataDir + "/providers-properties");
+
+    QCOMPARE(runQbs(), 0);
+    QVERIFY2(m_qbsStdout.contains("p.qbsmetatestmodule.prop: someValue"), m_qbsStdout);
+    QVERIFY2(m_qbsStdout.contains("p.qbsfallbackmodule.prop: otherValue"), m_qbsStdout);
+}
+
 void TestBlackbox::pseudoMultiplexing()
 {
     // This is "pseudo-multiplexing" on all platforms that initialize qbs.architectures

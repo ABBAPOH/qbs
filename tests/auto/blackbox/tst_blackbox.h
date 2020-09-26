@@ -254,6 +254,9 @@ private slots:
     void protobuf_data();
     void protobuf();
     void protobufLibraryInstall();
+    void providersSelection();
+    void providersSelection_data();
+    void providersProperties();
     void pseudoMultiplexing();
     void qbsConfig();
     void qbsSession();

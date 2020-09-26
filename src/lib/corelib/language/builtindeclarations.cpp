@@ -249,6 +249,7 @@ void BuiltinDeclarations::addDependsItem()
                                 PropertyDeclaration::ReadOnlyFlag);
     item << PropertyDeclaration(StringConstants::enableFallbackProperty(),
                                 PropertyDeclaration::Boolean, StringConstants::trueValue());
+    item << PropertyDeclaration(StringConstants::providers(), PropertyDeclaration::StringList);
     insert(item);
 }
 
@@ -433,6 +434,7 @@ void BuiltinDeclarations::addProductItem()
     item << PropertyDeclaration(StringConstants::multiplexConfigurationIdProperty(),
                                 PropertyDeclaration::String, QString(),
                                 PropertyDeclaration::ReadOnlyFlag);
+    item << PropertyDeclaration(StringConstants::providers(), PropertyDeclaration::StringList);
     insert(item);
 }
 
@@ -473,6 +475,7 @@ void BuiltinDeclarations::addProjectItem()
     item << PropertyDeclaration(StringConstants::qbsSearchPathsProperty(),
                                 PropertyDeclaration::StringList,
                                 QString(), PropertyDeclaration::PropertyNotAvailableInConfig);
+    item << PropertyDeclaration(StringConstants::providers(), PropertyDeclaration::StringList);
     insert(item);
 }
 

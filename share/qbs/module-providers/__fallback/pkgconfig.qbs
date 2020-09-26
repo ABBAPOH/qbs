@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2019 The Qt Company Ltd.
+** Copyright (C) 2020 Ivan Komissarov (abbapoh@gmail.com)
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of Qbs.
@@ -37,17 +37,7 @@
 **
 ****************************************************************************/
 
-import qbs.File
-import qbs.FileInfo
+import qbs.ModuleProviders
 
-ModuleProvider {
-    relativeSearchPaths: {
-        console.debug("Running fallback provider for module '" + name + "'.");
-        var inputFilePath = FileInfo.joinPaths(path, "fallback.qbs");
-        var outputDir = FileInfo.joinPaths(outputBaseDir, "modules", name.replace(".", "/"));
-        File.makePath(outputDir);
-        var outputFilePath = FileInfo.joinPaths(outputDir, name + ".qbs");
-        File.copy(inputFilePath, outputFilePath);
-        return "";
-    }
+ModuleProviders.Pkgconfig {
 }
