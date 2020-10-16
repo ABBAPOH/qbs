@@ -47,7 +47,7 @@ Project {
             cmd.description = "generating " + output.fileName;
             cmd.sourceCode = function() {
                var file = new TextFile(output.filePath, TextFile.WriteOnly);
-               file.write(product.moduleProperty("qbs", "architecture"));
+               file.write(product.qbs.architecture);
                file.close();
             }
             return cmd;

@@ -42,13 +42,13 @@ function destinationDirectoryForResource(product, input) {
         if (subPath && subPath !== '.')
             path = FileInfo.joinPaths(path, subPath);
     } else {
-        path = FileInfo.joinPaths(path, product.moduleProperty("bundle", "unlocalizedResourcesFolderPath"));
+        path = FileInfo.joinPaths(path, product.bundle.unlocalizedResourcesFolderPath);
     }
     return path;
 }
 
 function localizedResourcesFolderPath(product, key) {
-    return FileInfo.joinPaths(product.moduleProperty("bundle", "unlocalizedResourcesFolderPath"), key + product.moduleProperty("bundle", "localizedResourcesFolderSuffix"));
+    return FileInfo.joinPaths(product.bundle.unlocalizedResourcesFolderPath, key + product.bundle.localizedResourcesFolderSuffix);
 }
 
 function infoPlistContents(infoPlistFilePath) {

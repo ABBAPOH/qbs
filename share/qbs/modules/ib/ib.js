@@ -133,8 +133,8 @@ function ibtooldArguments(product, inputs, input, outputs, overrideOutput) {
 
     if (inputs.assetcatalog) {
         args.push("--platform", DarwinTools.applePlatformName(
-                      product.moduleProperty("qbs", "targetOS"),
-                      product.moduleProperty("xcode", "platformType")));
+                      product.qbs.targetOS,
+                      product.xcode.platformType));
 
         var appIconName = ModUtils.modulePropertyFromArtifacts(product, inputs.assetcatalog, product.moduleName, "appIconName");
         if (appIconName)
@@ -148,7 +148,7 @@ function ibtooldArguments(product, inputs, input, outputs, overrideOutput) {
         if (ModUtils.modulePropertyFromArtifacts(product, inputs.assetcatalog, product.moduleName, "compressPngs"))
             args.push("--compress-pngs");
     } else {
-        var sysroot = product.moduleProperty("qbs", "sysroot");
+        var sysroot = product.qbs.sysroot;
         if (sysroot)
             args.push("--sdk", sysroot);
 
@@ -166,7 +166,7 @@ function ibtooldArguments(product, inputs, input, outputs, overrideOutput) {
     }
 
     // --minimum-deployment-target was introduced in Xcode 5.0
-    var minimumDarwinVersion = product.moduleProperty("cpp", "minimumDarwinVersion");
+    var minimumDarwinVersion = product.cpp.minimumDarwinVersion;
     if (minimumDarwinVersion && ModUtils.moduleProperty(product, "ibtoolVersionMajor") >= 5)
         args.push("--minimum-deployment-target", minimumDarwinVersion);
 
@@ -233,8 +233,8 @@ function ibtoolCompiledDirSuffix(product, input) {
 function ibtoolOutputArtifacts(product, inputs, input) {
     var suffix = ibtoolCompiledDirSuffix(product, input);
     var tracker = new ModUtils.BlackboxOutputArtifactTracker();
-    tracker.hostOS = product.moduleProperty("qbs", "hostOS");
-    tracker.shellPath = product.moduleProperty("qbs", "shellPath");
+    tracker.hostOS = product.qbs.hostOS;
+    tracker.shellPath = product.qbs.shellPath;
     tracker.fileTaggers = ibtoolFileTaggers(input.fileTags);
     tracker.command = ModUtils.moduleProperty(product, "ibtoolPath");
     tracker.commandArgsFunction = function (outputDirectory) {
@@ -251,7 +251,7 @@ function ibtoolOutputArtifacts(product, inputs, input) {
 
     var artifacts = tracker.artifacts(ibtoolBuildDirectory);
 
-    if (product.moduleProperty("ib", "ibtoolVersionMajor") >= 6) {
+    if (product.ib.ibtoolVersionMajor >= 6) {
         var prefix = input.fileTags.contains("storyboard") ? "SB" : "";
         var path = FileInfo.joinPaths(product.destinationDirectory, input.completeBaseName +
                                       "-" + prefix + "PartialInfo.plist");
@@ -274,8 +274,8 @@ function actoolOutputArtifacts(product, inputs) {
     // actool has no --dry-run option (rdar://21786925),
     // so compile to a fake temporary directory in order to extract the list of output files
     var tracker = new ModUtils.BlackboxOutputArtifactTracker();
-    tracker.hostOS = product.moduleProperty("qbs", "hostOS");
-    tracker.shellPath = product.moduleProperty("qbs", "shellPath");
+    tracker.hostOS = product.qbs.hostOS;
+    tracker.shellPath = product.qbs.shellPath;
     tracker.command = ModUtils.moduleProperty(product, "actoolPath");
     tracker.commandArgsFunction = function (outputDirectory) {
         // Last --output-format argument overrides any previous ones

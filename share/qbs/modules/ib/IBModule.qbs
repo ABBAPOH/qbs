@@ -38,6 +38,7 @@ import 'ib.js' as Ib
 
 Module {
     Depends { name: "xcode"; required: false }
+    Depends { name: "bundle" }
 
     Probe {
         id: ibProbe
@@ -197,7 +198,7 @@ Module {
             // May not be strictly needed, but is set by some versions of Xcode
             if (input.fileTags.contains("storyboard"))
                 cmd.environment.push("IBSC_MINIMUM_COMPATIBILITY_VERSION=" +
-                                     (product.moduleProperty("cpp", "minimumDarwinVersion") || ""));
+                                     (product.cpp.minimumDarwinVersion || ""));
 
             cmd.stdoutFilterFunction = function(output) {
                 return "";

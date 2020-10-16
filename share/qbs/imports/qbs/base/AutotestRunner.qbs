@@ -67,7 +67,7 @@ Product {
                 return cmd;
             }
             var commandFilePath;
-            var installed = input.moduleProperty("qbs", "install");
+            var installed = input.qbs.install;
             if (installed)
                 commandFilePath = ModUtils.artifactInstalledFilePath(input);
             if (!commandFilePath || !File.exists(commandFilePath))

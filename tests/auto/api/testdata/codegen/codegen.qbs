@@ -42,13 +42,12 @@ Project {
             }
 
             // check whether multipart module name translation is working
-            var actual = product.moduleProperty("Qt.core", "mocName");
+            var actual = product.Qt.core.mocName;
             if (!actual || !actual.contains("moc"))
                 throw "multipart module name translation is broken";
 
             // check whether we can access project properties here
-            var expected = "CODEGEN_" + product.moduleProperty("qbs",
-                                                               "targetPlatform").toUpperCase();
+            var expected = "CODEGEN_" + product.qbs.targetPlatform.toUpperCase();
             if (project.osSpecificName !== expected)
                 throw "Wrong project property value: " + project.osSpecificName
                         + "\nexpected: " + expected;
@@ -57,7 +56,7 @@ Project {
             code = expandMacros(code, product.replacements);
             var args = ['echo ' + code + '>' + output.filePath]
             var cmd
-            if (product.moduleProperty("qbs", "hostOS").contains('windows')) {
+            if (product.qbs.hostOS.contains('windows')) {
                 cmd = new Command(product.qbs.windowsShellPath, ['/C'].concat(args));
             } else {
                 args[0] = args[0].replace(/\(/g, '\\(')

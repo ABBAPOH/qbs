@@ -7,7 +7,7 @@ Module {
     Rule {
         inputs: ["txt"]
         Artifact {
-            filePath: product.moduleProperty("mymodule", "indirect")
+            filePath: product.mymodule.indirect
             fileTags: ["mymodule"]
         }
         prepare: {

@@ -139,20 +139,20 @@ Module {
         inputs: ["archiver.input-list"]
 
         Artifact {
-            filePath: FileInfo.joinPaths(product.moduleProperty("archiver", "outputDirectory"),
-                              product.moduleProperty("archiver", "archiveBaseName") + '.'
-                                         + product.moduleProperty("archiver", "archiveExtension"));
+            filePath: FileInfo.joinPaths(product.archiver.outputDirectory,
+                              product.archiver.archiveBaseName + '.'
+                                         + product.archiver.archiveExtension);
             fileTags: ["archiver.archive"]
         }
 
         prepare: {
-            var binary = product.moduleProperty("archiver", "command");
+            var binary = product.archiver.command;
             var binaryName = FileInfo.baseName(binary);
             var args = [];
             var commands = [];
-            var type = product.moduleProperty("archiver", "type");
-            var compression = product.moduleProperty("archiver", "compressionType");
-            var compressionLevel = product.moduleProperty("archiver", "compressionLevel");
+            var type = product.archiver.type;
+            var compression = product.archiver.compressionType;
+            var compressionLevel = product.archiver.compressionLevel;
             if (binaryName === "7z") {
                 var rmCommand = new JavaScriptCommand();
                 rmCommand.silent = true;
@@ -183,7 +183,7 @@ Module {
 
                 if (compressionLevel)
                     args.push("-mx" + compressionLevel);
-                args = args.concat(product.moduleProperty("archiver", "flags"));
+                args = args.concat(product.archiver.flags);
                 args.push(output.filePath);
                 args.push("@" + input.filePath);
             } else if (binaryName === "tar" && type === "tar") {
@@ -197,13 +197,13 @@ Module {
                 else if (compression === "xz")
                     args.push("-J");
                 args.push("-f", output.filePath, "-T", input.filePath);
-                args = args.concat(product.moduleProperty("archiver", "flags"));
+                args = args.concat(product.archiver.flags);
             } else if (binaryName === "jar" && type === "zip") {
                 if (compression === "none" || compressionLevel === "0")
                     args.push("-0");
 
                 args.push("-cfM", output.filePath, "@" + input.filePath);
-                args = args.concat(product.moduleProperty("archiver", "flags"));
+                args = args.concat(product.archiver.flags);
             } else if (binaryName === "zip" && type === "zip") {
                 // The "zip" program included with most Linux and Unix distributions
                 // (including macOS) is Info-ZIP's Zip, so this should be fairly portable.
@@ -219,7 +219,7 @@ Module {
                 }
 
                 args.push("-r", output.filePath, ".", "-i@" + input.filePath);
-                args = args.concat(product.moduleProperty("archiver", "flags"));
+                args = args.concat(product.archiver.flags);
             } else if (["tar", "zip", "jar"].contains(binaryName)) {
                 throw binaryName + ": unrecognized archive type: '" + type + "'";
             } else if (binaryName) {
@@ -231,8 +231,7 @@ Module {
             var archiverCommand = new Command(binary, args);
             archiverCommand.description = "Creating archive file " + output.fileName;
             archiverCommand.highlight = "linker";
-            archiverCommand.workingDirectory
-                    = product.moduleProperty("archiver", "workingDirectory");
+            archiverCommand.workingDirectory = product.archiver.workingDirectory;
             commands.push(archiverCommand);
             return commands;
         }

@@ -77,10 +77,10 @@ function checkCompatibilityMode(project, minimumQbsVersion, message) {
 }
 
 function artifactInstalledFilePath(artifact) {
-    var relativeInstallDir = artifact.moduleProperty("qbs", "installDir");
-    var installPrefix = artifact.moduleProperty("qbs", "installPrefix");
-    var installSourceBase = artifact.moduleProperty("qbs", "installSourceBase");
-    var targetDir = FileInfo.joinPaths(artifact.moduleProperty("qbs", "installRoot"),
+    var relativeInstallDir = artifact.qbs.installDir;
+    var installPrefix = artifact.qbs.installPrefix;
+    var installSourceBase = artifact.qbs.installSourceBase;
+    var targetDir = FileInfo.joinPaths(artifact.qbs.installRoot,
                                        installPrefix, relativeInstallDir);
     if (installSourceBase) {
         if (!FileInfo.isAbsolutePath(installSourceBase))
@@ -175,11 +175,10 @@ function languagePropertyName(propertyName, fileTag) {
 }
 
 function modulePropertiesFromArtifacts(product, artifacts, moduleName, propertyName, langFilter) {
-    var result = product.moduleProperty(
-                moduleName, languagePropertyName(propertyName, langFilter)) || [];
+    var sanitizedName = languagePropertyName(propertyName, langFilter);
+    var result = product[moduleName][sanitizedName] || [];
     for (var i in artifacts) {
-        var artifactProp = artifacts[i].moduleProperty(
-                    moduleName, languagePropertyName(propertyName, langFilter));
+        var artifactProp = artifacts[i][moduleName][sanitizedName];
         if (artifactProp)
             result = result.concat(artifactProp);
     }
@@ -192,8 +191,7 @@ function moduleProperty(product, propertyName, langFilter)
 }
 
 function sanitizedModuleProperty(obj, moduleName, propertyName, langFilter) {
-    return sanitizedList(obj.moduleProperty(moduleName,
-                                            languagePropertyName(propertyName, langFilter)),
+    return sanitizedList(obj[moduleName][languagePropertyName(propertyName, langFilter)],
                          obj, moduleName + "." + propertyName);
 }
 
@@ -206,9 +204,10 @@ function sanitizedModuleProperty(obj, moduleName, propertyName, langFilter) {
   * same for all inputs.
   */
 function modulePropertyFromArtifacts(product, artifacts, moduleName, propertyName, langFilter) {
-    var values = [product.moduleProperty(moduleName, languagePropertyName(propertyName, langFilter))];
+    var sanitizedName = languagePropertyName(propertyName, langFilter);
+    var values = [product[moduleName][sanitizedName]];
     for (var i in artifacts) {
-        var value = artifacts[i].moduleProperty(moduleName, languagePropertyName(propertyName, langFilter));
+        var value = artifacts[i][moduleName][sanitizedName];
         if (!values.contains(value)) {
             values.push(value);
         }

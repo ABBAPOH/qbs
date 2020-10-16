@@ -156,7 +156,7 @@ Module {
             var args = [];
 
             // Prefix character for makensis options
-            var opt = product.moduleProperty("qbs", "hostOS").contains("windows") ? "/" : "-";
+            var opt = product.qbs.hostOS.contains("windows") ? "/" : "-";
 
             if (ModUtils.moduleProperty(product, "disableConfig")) {
                 args.push(opt + "NOCONFIG");
@@ -191,7 +191,7 @@ Module {
                 }
 
                 // Users are likely to need this
-                var arch = product.moduleProperty("qbs", "architecture");
+                var arch = product.qbs.architecture
                 args.push(opt + "Dqbs.architecture=" + arch);
 
                 // Helper define for alternating between 32-bit and 64-bit logic
@@ -226,7 +226,7 @@ Module {
             for (i in inputs.nsi) {
                 inputFileNames.push(inputs.nsi[i].fileName);
                 args.push(FileInfo.toNativeSeparators(inputs.nsi[i].filePath,
-                                                      product.moduleProperty("qbs", "hostOS")));
+                                                      product.qbs.hostOS));
             }
 
             // Output file name - this goes last to override any OutFile command in the script

@@ -304,14 +304,15 @@ Module {
             cmd.extraEnv = ModUtils.moduleProperty(product, "extraEnv");
             cmd.qmakeEnv = ModUtils.moduleProperty(product, "qmakeEnv");
 
-            cmd.buildEnv = product.moduleProperty("cpp", "buildEnv");
+            // TODO: we don't depend on the cpp module, so accessing it here seems weird
+            cmd.buildEnv = product.cpp ? product.cpp.buildEnv : {};
 
-            cmd.developerPath = product.moduleProperty("xcode", "developerPath");
-            cmd.platformInfoPlist = product.moduleProperty("xcode", "platformInfoPlist");
-            cmd.sdkSettingsPlist = product.moduleProperty("xcode", "sdkSettingsPlist");
-            cmd.toolchainInfoPlist = product.moduleProperty("xcode", "toolchainInfoPlist");
+            cmd.developerPath = product.xcode.developerPath;
+            cmd.platformInfoPlist = product.xcode.platformInfoPlist;
+            cmd.sdkSettingsPlist = product.xcode.sdkSettingsPlist;
+            cmd.toolchainInfoPlist = product.xcode.toolchainInfoPlist;
 
-            cmd.osBuildVersion = product.moduleProperty("qbs", "hostOSBuildVersion");
+            cmd.osBuildVersion = product.qbs.hostOSBuildVersion;
 
             cmd.sourceCode = function() {
                 var plist, process, key, i;
@@ -534,7 +535,7 @@ Module {
             var i, artifacts = [];
             if (ModUtils.moduleProperty(product, "isBundle")) {
                 for (i in inputs["bundle.input"]) {
-                    var fp = inputs["bundle.input"][i].moduleProperty("bundle", "_bundleFilePath");
+                    var fp = inputs["bundle.input"][i].bundle._bundleFilePath;
                     if (!fp)
                         throw("Artifact " + inputs["bundle.input"][i].filePath + " has no associated bundle file path");
                     var extraTags = inputs["bundle.input"][i].fileTags.contains("application")
@@ -696,8 +697,8 @@ Module {
             }
 
             var bundleInputs = sortedArtifactList(inputs["bundle.input"], function (a, b) {
-                return a.moduleProperty("bundle", "_bundleFilePath").localeCompare(
-                            b.moduleProperty("bundle", "_bundleFilePath"));
+                return a.bundle._bundleFilePath.localeCompare(
+                            b.bundle._bundleFilePath);
             });
             var bundleContents = sortedArtifactList(outputs["bundle.content.copied"]);
             for (i in bundleContents) {
@@ -769,12 +770,12 @@ Module {
             if (cmd.sources && cmd.sources.length)
                 commands.push(cmd);
 
-            if (product.moduleProperty("qbs", "hostOS").contains("darwin")) {
+            if (product.qbs.hostOS.contains("darwin")) {
                 Array.prototype.push.apply(commands, Codesign.prepareSign(
                                                project, product, inputs, outputs, input, output));
 
                 if (bundleType === "application"
-                        && product.moduleProperty("qbs", "targetOS").contains("macos")) {
+                        && product.qbs.targetOS.contains("macos")) {
                     cmd = new Command(ModUtils.moduleProperty(product, "lsregisterPath"),
                                       ["-f", product.bundle.bundleName]);
                     cmd.description = "register " + ModUtils.moduleProperty(product, "bundleName");

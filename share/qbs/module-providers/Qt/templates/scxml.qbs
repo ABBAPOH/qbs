@@ -25,7 +25,7 @@ QtModule {
         }
 
         prepare: {
-            var compilerName = product.moduleProperty("Qt.scxml", "qscxmlcName");
+            var compilerName = product.Qt.scxml.qscxmlcName;
             var compilerPath = FileInfo.joinPaths(input.moduleProperty("Qt.core", "binPath"),
                                                   compilerName);
             var args = ["--header", outputs["hpp"][0].filePath,

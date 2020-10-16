@@ -54,7 +54,7 @@ Product {
                 try {
                     for (var i = 0; i < inputs["installable"].length; ++i) {
                         var inp = inputs["installable"][i];
-                        var installRoot = inp.moduleProperty("qbs", "installRoot");
+                        var installRoot = inp.qbs.installRoot;
                         var installedFilePath = ModUtils.artifactInstalledFilePath(inp);
                         ofile.writeLine(FileInfo.relativePath(installRoot, installedFilePath));
                     }

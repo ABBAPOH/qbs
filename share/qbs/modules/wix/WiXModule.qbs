@@ -206,7 +206,7 @@ Module {
                 args.push("-v");
             }
 
-            var arch = product.moduleProperty("qbs", "architecture");
+            var arch = product.qbs.architecture;
 
             // http://wixtoolset.org/documentation/manual/v3/xsd/wix/package.html
             switch (arch) {
@@ -224,15 +224,15 @@ Module {
             // using Visual Studio. The only definitions we don't pass are the ones which make no sense at all
             // in QBS, like the solution and project directories since they do not exist.
             if (ModUtils.moduleProperty(input, "visualStudioCompatibility")) {
-                var toolchain = product.moduleProperty("qbs", "toolchain");
-                var toolchainInstallPath = product.moduleProperty("cpp", "toolchainInstallPath");
+                var toolchain = product.qbs.toolchain;
+                var toolchainInstallPath = product.cpp.toolchainInstallPath;
                 if (toolchain && toolchain.contains("msvc") && toolchainInstallPath) {
                     var vcDir = toolchainInstallPath.replace(/[\\/]bin$/i, "");
                     var vcRootDir = vcDir.replace(/[\\/]VC$/i, "");
                     args.push("-dDevEnvDir=" + FileInfo.toWindowsSeparators(FileInfo.joinPaths(vcRootDir, 'Common7', 'IDE')));
                 }
 
-                var buildVariant = product.moduleProperty("qbs", "buildVariant");
+                var buildVariant = product.qbs.buildVariant;
                 if (buildVariant === "debug") {
                     args.push("-dDebug");
                     args.push("-dConfiguration=Debug");

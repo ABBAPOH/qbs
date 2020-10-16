@@ -66,7 +66,7 @@ QbsProduct {
                 return ModUtils.artifactInstalledFilePath(a);
             });
             cmd.outputFilePath = output.filePath;
-            cmd.baseDirectory = product.moduleProperty("archiver", "workingDirectory");
+            cmd.baseDirectory = product.archiver.workingDirectory;
             cmd.sourceCode = function() {
                 inputFilePaths.sort();
                 var tf;

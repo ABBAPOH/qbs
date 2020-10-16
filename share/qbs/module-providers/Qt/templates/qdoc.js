@@ -58,8 +58,8 @@ function qdocFileTaggers() {
 
 function outputArtifacts(product, input) {
     var tracker = new ModUtils.BlackboxOutputArtifactTracker();
-    tracker.hostOS = product.moduleProperty("qbs", "hostOS");
-    tracker.shellPath = product.moduleProperty("qbs", "shellPath");
+    tracker.hostOS = product.qbs.hostOS;
+    tracker.shellPath = product.qbs.shellPath;
     tracker.defaultFileTags = [_qdocDefaultFileTag];
     tracker.fileTaggers = qdocFileTaggers();
     tracker.command = FileInfo.joinPaths(ModUtils.moduleProperty(product, "binPath"),

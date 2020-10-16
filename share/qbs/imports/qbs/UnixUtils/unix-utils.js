@@ -31,16 +31,16 @@
 var FileInfo = require("qbs.FileInfo");
 
 function soname(product, outputFileName) {
-    var soVersion = product.moduleProperty("cpp", "soVersion");
-    if (product.moduleProperty("qbs", "targetOS").contains("darwin")) {
+    var soVersion = product.cpp.soVersion;
+    if (product.qbs.targetOS.contains("darwin")) {
         // If this is a bundle, ignore the parameter and use the relative path to the bundle binary
         // For example: qbs.framework/Versions/1/qbs
-        if (product.moduleProperty("bundle", "isBundle"))
-            outputFileName = product.moduleProperty("bundle", "executablePath");
+        if (product.bundle && product.bundle.isBundle)
+            outputFileName = product.bundle.executablePath;
     } else if (soVersion) {
         // For non-Darwin platforms, append the shared library major version number to the soname
         // For example: libqbscore.so.1
-        var version = product.moduleProperty("cpp", "internalVersion");
+        var version = product.cpp.internalVersion;
         if (version) {
             outputFileName = outputFileName.substr(0, outputFileName.length - version.length)
                     + soVersion;
@@ -51,7 +51,7 @@ function soname(product, outputFileName) {
 
     // Prepend the soname prefix
     // For example, @rpath/libqbscore.dylib or /usr/lib/libqbscore.so.1
-    var prefix = product.moduleProperty("cpp", "sonamePrefix");
+    var prefix = product.cpp.sonamePrefix;
     if (prefix)
         outputFileName = FileInfo.joinPaths(prefix, outputFileName);
 

@@ -38,8 +38,8 @@ Product {
                     tf.close();
                 }
 
-                if (product.moduleProperty("Android.sdk", "present")) {
-                    tools["sdk"] = product.moduleProperty("Android.sdk", "sdkDir");
+                if (product.Android.sdk.present) {
+                    tools["sdk"] = product.Android.sdk.sdkDir;
                     tools["sdk-build-tools-dx"] = product.Android.sdk.dxFilePath;
                     tools["sdk-build-tools-d8"] = product.Android.sdk.d8FilePath;
                 }
@@ -70,8 +70,8 @@ Product {
             cmd.description = output.filePath;
             cmd.sourceCode = function() {
                 var tools = {};
-                if (product.moduleProperty("Android.ndk", "present")) {
-                    tools["ndk"] = product.moduleProperty("Android.ndk", "ndkDir");
+                if (product.Android.ndk.present) {
+                    tools["ndk"] = product.Android.ndk.ndkDir;
                     tools["ndk-samples"] = product.Android.ndk.ndkSamplesDir;
                 }
 
