@@ -1,7 +1,7 @@
 CppApplication {
     consoleApplication: true
     files: "main.cpp"
-    install: false
+    buildconfig.install: false
     Group {
         condition: false
         qbs.install: true

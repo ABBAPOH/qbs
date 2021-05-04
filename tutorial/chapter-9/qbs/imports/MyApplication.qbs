@@ -1,8 +1,6 @@
 CppApplication {
-    Depends { name: "mybuildconfig" }
-    version: mybuildconfig.productVersion
+    version: buildconfig.productVersion
 
-    cpp.rpaths: mybuildconfig.libRPaths
+    cpp.rpaths: buildconfig.libRPaths
     consoleApplication: true
-    installDir: mybuildconfig.appInstallDir
 }

@@ -1,9 +1,13 @@
 import qbs.FileInfo
 
+//! [0]
+// qbs/modules/buildconfig/buildconfig.qbs
 Module {
     Depends { name: "cpp" }
 
-    property string appInstallDir: "bin"
+    property string productVersion: "1.0.0"
+    // ...
+    //! [0]
     property string libDirName: "lib"
     property string libInstallDir: qbs.targetOS.contains("windows") ? "bin" : libDirName
     property bool staticBuild: false

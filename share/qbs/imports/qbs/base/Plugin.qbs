@@ -1,5 +1,6 @@
 /****************************************************************************
 **
+** Copyright (C) 2025 Ivan Komissarov (abbapoh@gmail.com).
 ** Copyright (C) 2015 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing
 **
@@ -28,9 +29,8 @@
 **
 ****************************************************************************/
 
-Plugin {
-    type: isForDarwin ? ["loadablemodule"] : base
-    installDir: buildconfig.installLoadableModules && isForDarwin && bundle.isBundle
-        ? buildconfig.loadableModulesInstallDir
-        : base
+DynamicLibrary {
+    Depends { name: "buildconfig" }
+    installDir: buildconfig.installPlugins ? buildconfig.pluginsInstallDir : undefined
+    debugInformationInstallDir: buildconfig.debugInformationInstallDir || installDir
 }
