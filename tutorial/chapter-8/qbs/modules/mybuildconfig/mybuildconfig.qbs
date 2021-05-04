@@ -2,12 +2,10 @@ import qbs.FileInfo
 
 Module {
     Depends { name: "cpp" }
+    Depends { name: "installpaths" }
 
-    property string appInstallDir: "bin"
-    property string libDirName: "lib"
-    property string libInstallDir: qbs.targetOS.contains("windows") ? "bin" : libDirName
+    property bool installPublicHeaders: false
     property bool staticBuild: false
-    property bool installStaticLib: true
     property bool enableRPath: true
 
     property stringList libRPaths: {
@@ -17,7 +15,7 @@ Module {
                     cpp.rpathOrigin,
                     FileInfo.relativePath(
                         FileInfo.joinPaths('/', product.installDir),
-                        FileInfo.joinPaths('/', libDirName)))
+                        FileInfo.joinPaths('/', installpaths.lib)))
             ];
         }
         return [];

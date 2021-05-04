@@ -1,7 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
-** Copyright (C) 2015 Jake Petroules.
+** Copyright (C) 2025 Ivan Komissarov (abbapoh@gmail.com).
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of Qbs.
@@ -25,16 +24,36 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+
 /*!
-    \previouspage Library
-    \nextpage QtApplication
-    \qmltype LoadableModule
-    \inherits Plugin
-    \inqmlmodule QbsConvenienceItems
-    \ingroup list-of-items
-    \keyword QML.LoadableModule
+    \qmltype items.common
+    \inqmlmodule QbsModules
+    \since Qbs 3.1
 
-    \brief Loadable module.
+    \brief Provides common properties shared across different item types.
 
-    Same as the \l{Plugin} item.
+    The \c{items.common} module contains basic properties that are shared across different
+    item types, such as installation control and debug information handling.
+
+    \section2 Example usage
+
+    \code
+    $ qbs modules.items.installDebugInformation:true
+    \endcode
+*/
+
+/*!
+    \qmlproperty string items.common::install
+
+    Controls whether products should be installed.
+
+    \defaultvalue \c false
+*/
+
+/*!
+    \qmlproperty string items.common::installDebugInformation
+
+    Controls whether the debug information should be installed along with products.
+
+    \defaultvalue \c false
 */

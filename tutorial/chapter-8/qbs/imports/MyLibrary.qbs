@@ -1,11 +1,22 @@
 // ![0]
 Library {
+    version: project.version
+
+    property pathList publicHeaders
     Depends { name: "cpp" }
     Depends { name: "mybuildconfig" }
+    Depends { name: "installpaths" }
+
     type: mybuildconfig.staticBuild ? "staticlibrary" : "dynamiclibrary"
-    version: "1.0.0"
-    install: !mybuildconfig.staticBuild || mybuildconfig.installStaticLib
-    installDir: mybuildconfig.libInstallDir
+
+    Group {
+        condition: publicHeaders.length > 0
+        name: "Public Headers"
+        prefix: product.sourceDirectory + "/"
+        files: publicHeaders
+        qbs.install: mybuildconfig.installPublicHeaders
+        qbs.installDir: installpaths.include
+    }
 
     readonly property string _nameUpper : name.replace(" ", "_").toUpperCase()
     property string libraryMacro: _nameUpper + "_LIBRARY"

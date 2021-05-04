@@ -439,18 +439,33 @@
         }
     \endcode
 
-    So far, this is just an empty \l{Module} so let's add some properties to it:
+    So far, this is just an empty \l{Module} so let's add a new property to it:
     \snippet ../tutorial/chapter-7/qbs/modules/mybuildconfig/mybuildconfig.qbs 0
 
-    We added the \c appInstallDir and \c libInstallDir properties that will allow us to configure
-    the installation location of the our application and library, respectively.
+    We added the \c{installPublicHeaders} property that will allow us to configure
+    the whether we need to install public headers for our library.
 
-    Now we can use our module in the \c{MyApplication.qbs} item:
-    \snippet ../tutorial/chapter-7/qbs/imports/MyApplication.qbs 0
+    Now we can use our module in the \c{MyLibrary.qbs} item:
+    \snippet ../tutorial/chapter-7/qbs/imports/MyLibrary.qbs 0
+
+    We add a new \c{publicHeaders} property that will contain the list of headers we want to
+    install.
 
     We pull in the new module using the \l{Depends} item, similar to how we pulled in
-    the \l{cpp} module dependency earlier. We also set the \l{Application::installDir}{installDir}
-    property to the corresponding module property, namely to \c{mybuildconfig.appInstallDir}.
+    the \l{cpp} module dependency earlier. We also pull in the \l{installpaths} module that
+    has properties the speicfiy the typical install locations on various platforms.
+
+    Finally, we create a \l{Group} item that installs headers listed by the \c{publicHeaders}
+    property to the \l{installpaths::include}{installpaths.include} directory.
+
+    Now we can rewrite the \c{lib/lib.qbs} to use the new property:
+
+    \snippet ../tutorial/chapter-7/lib/lib.qbs 0
+
+    We could also use the property in the \l{Project} item similar to how we did in the previous
+    chapter. There is no strong preference which way to use, however using modules for
+    configuration is more flexible as it is also possible to set properties of other modules
+    as described below.
 
     \QBS \l{Module}{modules} have the feature to automatically export properties of other modules.
     Those exported properties are merged in the resulting product. We can use this feature to set
@@ -464,15 +479,17 @@
     \l{cpp::rpaths}{cpp.rpaths} to this property. This way, those \c rpaths will be automatically
     exported to all products that depend on the \c{mybuildconfig} module.
 
-    Now, we can also use our new module in the library item:
-    \snippet ../tutorial/chapter-7/qbs/imports/MyLibrary.qbs 0
+    Now, we can also use our new module in the \c{MyApplication} item;
+    the \l{cpp::rpaths}{cpp.rpaths} is now injected by the module making \c{MyApplication} item
+    trivial:
+    \snippet ../tutorial/chapter-7/qbs/imports/MyApplication.qbs 0
 
-    Let's change the library folder name from \c{"lib"} to \c{"lib64"} when building our project:
+    Let's change whether to install public headers when building our project:
     \code
-        $ qbs modules.mybuildconfig.libDirName:lib64
+        $ qbs modules.mybuildconfig.installPublicHeaders:true
         ...
-        $ ls default/install-root/usr/local/
-        bin    lib64
+        $ ls default/install-root/usr/local/include/
+        lib.h
     \endcode
 */
 
@@ -486,12 +503,11 @@
     In this chapter, we will make our library more configurable. We will add configuration options
     to be able to choose between static and dynamic builds.
 
-    We start with some new properties in the \c mybuildconfig module:
+    We start with some a new property in the \c mybuildconfig module:
     \code
     Module {
         ...
         property bool staticBuild: false
-        property bool installStaticLib: true
         ...
     }
     \endcode
@@ -543,11 +559,14 @@
         libmylib.1.so
         libmylib.so
     $ rm -r default
-    $ qbs resolve modules.mybuildconfig.staticBuild:true && qbs build
+    $ qbs resolve modules.mybuildconfig.staticBuild:true modules.items.library.install:true && qbs build
     ...
     $ $ ls default/install-root/usr/local/lib/
         libmylib.a
     \endcode
+
+    \note \QBS does not install static libraries by default, thats why we set the
+    \l{items.library::install} property to \c{true} to enforce installation of the static library.
 */
 
 /*!

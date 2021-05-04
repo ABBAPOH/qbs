@@ -1,0 +1,155 @@
+/****************************************************************************
+**
+** Copyright (C) 2025 Janet Black.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of Qbs.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file. Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: https://www.gnu.org/licenses/fdl-1.3.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+    \qmltype installpaths
+    \inqmlmodule QbsModules
+    \since Qbs 3.1
+
+    \brief Provides constants for install directories.
+
+    The \c installpaths module contains properties indicating directories where
+    files should be installed to in a manner allowing distributors to make necessary
+    adjustments to where files are installed.
+
+    \section2 Example usage
+
+    It is easy to adjust the installation paths of a product using the installPaths module.
+    You can do this by passing \c{modules.installPaths.<property>:path} to the \c qbs command line.
+    For example,
+    \code
+    qbs modules.installPaths.libexec:lib64/libexec
+    \endcode
+
+    \section2 For Linux developers
+    On Debian-like Linux, this module also provides some convenience auto-detection mechanism
+    using the \c dpkg-architecture tool. If installPaths::autotedect is true, \QBS will query
+    the library paths from the system.
+*/
+
+/*!
+    \qmlproperty string installpaths::autotedect
+
+    Whether to try autotetect paths using system tools.
+
+    This property has effect only when targeting Linux platform when building on Debian-like Linux.
+
+    \defaultvalue \c false
+*/
+
+/*!
+    \qmlproperty string installpaths::bin
+
+    The location where to install binaries.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Applications".
+
+    \defaultvalue \c "bin"
+*/
+
+/*!
+    \qmlproperty string installpaths::config
+
+    The location where to install configs.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Library".
+
+    \defaultvalue \c "etc"
+*/
+
+/*!
+    \qmlproperty string installpaths::data
+
+    The location where to install resources.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Resources".
+
+    \defaultvalue \c "share"
+*/
+
+/*!
+    \qmlproperty string installpaths::include
+
+    The location where to install include files.
+
+    \defaultvalue \c "include"
+*/
+
+/*!
+    \qmlproperty string installpaths::lib
+
+    The location where to install libraries.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Library/Frameworks".
+
+    \defaultvalue \c "lib"
+*/
+
+/*!
+    \qmlproperty string installpaths::libexec
+
+    The location where to install additional executables.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Resources/libexec".
+
+    \defaultvalue \c "libexec/" + libexecSuffix
+*/
+
+/*!
+    \qmlproperty string installpaths::dirSuffix
+
+    The additional suffix appended to the libexec path.
+
+    \defaultvalue \c project.name
+*/
+
+/*!
+    \qmlproperty string installpaths::plugins
+
+    The location where to install plugins.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "PlugIns".
+
+    \defaultvalue \c{lib + "/" + dirSuffix + "/plugins"}
+*/
+
+/*!
+    \qmlproperty string installpaths::share
+
+    The location where to install resources.
+
+    On Apple platforms, if \l{bundle::isBundle}{bundle.isBundle} is true, the default value is
+    \c "Resources".
+
+    \defaultvalue \c{"share/" + dirSuffix}
+*/
