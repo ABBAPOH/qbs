@@ -1,20 +1,16 @@
+//! [1]
 import qbs.FileInfo
-
 //! [0]
-// qbs/modules/mybuildconfig/mybuildconfig.qbs
+// qbs/imports/ConfigMyProject.qbs
 Module {
-    Depends { name: "cpp" }
-
-    property string productVersion: "1.0.0"
-    // ...
+    property bool installPublicHeaders: false
     //! [0]
-    property string appInstallDir: "bin"
-    property string libDirName: "lib"
-    property string libInstallDir: qbs.targetOS.contains("windows") ? "bin" : libDirName
-    property bool staticBuild: false
-    property bool installStaticLib: true
-    property bool enableRPath: true
 
+    Depends { name: "cpp" }
+    Depends { name: "installpaths" }
+    Depends { name: "config.build" }
+
+    property bool enableRPath: true
     property stringList libRPaths: {
         if (enableRPath && cpp.rpathOrigin && product.installDir) {
             return [
@@ -22,9 +18,11 @@ Module {
                     cpp.rpathOrigin,
                     FileInfo.relativePath(
                         FileInfo.joinPaths('/', product.installDir),
-                        FileInfo.joinPaths('/', libDirName)))
-            ];
+                        FileInfo.joinPaths('/', config.build.dynamicLibrariesInstallDir)))];
         }
         return [];
     }
+
+    cpp.rpaths: libRPaths
 }
+//! [1]

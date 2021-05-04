@@ -23,7 +23,7 @@ StaticLibrary {
     cpp.staticLibrarySuffix: ".ext"
 
     qbs.installPrefix: ""
-    install: true
+    config.build.installStaticLibraries: true
 
     Depends { name: "cpp" }
 

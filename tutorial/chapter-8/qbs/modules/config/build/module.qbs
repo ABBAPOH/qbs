@@ -1,0 +1,3 @@
+ConfigBuild {
+    installImportLibs: true
+}

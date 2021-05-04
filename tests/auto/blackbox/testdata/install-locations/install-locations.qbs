@@ -17,8 +17,6 @@ Project {
     }
     CppApplication {
         name: "theapp"
-        install: true
-        installDebugInformation: true
         files: "main.cpp"
         cpp.separateDebugInformation: true
         Group {
@@ -28,17 +26,13 @@ Project {
     }
     DynamicLibrary {
         name: "thelib"
-        install: true
         installImportLib: true
-        installDebugInformation: true
         Depends { name: "cpp" }
         cpp.separateDebugInformation: true
         files: "thelib.cpp"
     }
     LoadableModule {
         name: "theplugin"
-        install: true
-        installDebugInformation: true
         Depends { name: "cpp" }
         cpp.separateDebugInformation: true
         files: "theplugin.cpp"
