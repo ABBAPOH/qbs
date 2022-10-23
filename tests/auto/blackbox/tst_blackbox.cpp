@@ -1179,6 +1179,13 @@ void TestBlackbox::discardUnusedData_data()
     QTest::newRow("default") << QString() << true;
 }
 
+void TestBlackbox::dotDotPcFile()
+{
+    QDir::setCurrent(testDataDir + "/dot-dot-pc-file");
+
+    QCOMPARE(runQbs(), 0);
+}
+
 void TestBlackbox::driverLinkerFlags()
 {
     QDir::setCurrent(testDataDir + QLatin1String("/driver-linker-flags"));

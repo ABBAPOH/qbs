@@ -125,7 +125,7 @@ ModuleProvider {
             return result;
         }
 
-        function getModuleName(packageName) { return packageName.replace('.', '-'); }
+        function getModuleName(packageName) { return packageName.replace(/\./g, '-'); }
 
         function getModuleDependencies(pkg, staticMode) {
             var mapper = function(p) {
