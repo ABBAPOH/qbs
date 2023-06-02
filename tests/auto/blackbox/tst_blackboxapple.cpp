@@ -890,8 +890,6 @@ void TestBlackboxApple::deploymentTarget_data()
 
 void TestBlackboxApple::dmg()
 {
-    if (qEnvironmentVariableIsSet("GITHUB_ACTIONS"))
-        QSKIP("Skip this test when running on GitHub");
     QDir::setCurrent(testDataDir + "/apple-dmg");
     QCOMPARE(runQbs(), 0);
 }
