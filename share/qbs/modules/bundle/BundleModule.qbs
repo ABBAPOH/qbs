@@ -50,6 +50,9 @@ Module {
         condition: qbs.targetOS.includes("darwin")
 
         property string xcodeDeveloperPath: xcode.developerPath
+        readonly property path xcodePlatformInfoPlist: xcode.platformInfoPlist
+        readonly property path xcodeSdkSettingsPlist: xcode.sdkSettingsPlist
+        readonly property path xcodeToolchainInfoPlist: xcode.toolchainInfoPlist
         property var xcodeArchSettings: xcode._architectureSettings
         property string productTypeIdentifier: _productTypeIdentifier
         property bool useXcodeBuildSpecs: !useBuiltinXcodeBuildSpecs
@@ -310,10 +313,10 @@ Module {
             // TODO: bundle module should know nothing about cpp module
             cmd.buildEnv = product.moduleProperty("cpp", "buildEnv");
 
-            cmd.developerPath = product.xcode.developerPath;
-            cmd.platformInfoPlist = product.xcode.platformInfoPlist;
-            cmd.sdkSettingsPlist = product.xcode.sdkSettingsPlist;
-            cmd.toolchainInfoPlist = product.xcode.toolchainInfoPlist;
+            cmd.developerPath = product.bundle.xcodeDeveloperPath;
+            cmd.platformInfoPlist = product.bundle.xcodePlatformInfoPlist;
+            cmd.sdkSettingsPlist = product.bundle.xcodeSdkSettingsPlist;
+            cmd.toolchainInfoPlist = product.bundle.xcodeToolchainInfoPlist;
 
             cmd.osBuildVersion = product.qbs.hostOSBuildVersion;
 
