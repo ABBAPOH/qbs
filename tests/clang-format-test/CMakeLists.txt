@@ -1,0 +1,1 @@
+add_qbs_library(clang-format-test STATIC clang-format.cpp)

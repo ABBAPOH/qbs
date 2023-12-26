@@ -4,6 +4,7 @@ Project {
     references: [
         "auto/auto.qbs",
         "benchmarker/benchmarker.qbs",
+        "clang-format/clang-format.qbs",
         "fuzzy-test/fuzzy-test.qbs",
         "lspclient/lspclient.qbs",
     ]
