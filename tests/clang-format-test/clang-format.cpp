@@ -329,13 +329,12 @@ void penaltyTests(bool isThatTrue)
     const auto someValue10 = functionToCall(valueX, valueY, valueXTimesY);
     const auto someValue11
         = functionToCall(valueX, valueY, valueXTimesY, unbelievableBigValue, unbelievableBigValue);
-    const auto someValue12 = functionToCall(
-        valueX,
-        valueY,
-        valueXTimesY,
-        unbelievableBigValue,
-        unbelievableBigValue * unbelievableBigValue,
-        unbelievableBigValue);
+    const auto someValue12 = functionToCall(valueX,
+                                    valueY,
+                                    valueXTimesY,
+                                    unbelievableBigValue,
+                                    unbelievableBigValue * unbelievableBigValue,
+                                            unbelievableBigValue);
 
     const auto someValue13 = functionToCall(
         valueX,
