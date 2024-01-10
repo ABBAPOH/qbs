@@ -402,4 +402,9 @@ void TestBlackboxProviders::removalVersion()
         "Property 'deprecated' was scheduled for removal in version 2.2.0, but is still present"));
 }
 
+void TestBlackboxProviders::crash()
+{
+    abort();
+}
+
 QTEST_MAIN(TestBlackboxProviders)
