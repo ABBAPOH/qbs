@@ -116,6 +116,7 @@ function configure(selectors, names, nameSuffixes, nameFilter, candidateFilter,
             for (var j = 0; j < _paths.length; ++j) {
                 for (var k = 0; k < _suffixes.length; ++k) {
                     var _filePath = FileInfo.joinPaths(_paths[j], _suffixes[k], selector.names[i]);
+                    console.info("trying " + _filePath);
                     file.candidatePaths.push(_filePath);
                     if (File.exists(_filePath)
                             && (!candidateFilter || candidateFilter(_filePath))) {

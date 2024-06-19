@@ -869,10 +869,11 @@ jobs:
       shell: bash
     - name: Install Conan
       if: matrix.config.toolchain == 'win64_msvc2019_64'
+      uses: turtlebrowser/get-conan@main
+    - name: Install Ninja
+      if: matrix.config.toolchain == 'win64_msvc2019_64'
       run: |
-        choco install conan
         choco install ninja
-        echo "C:\\Program Files\\conan\\conan" >> $GITHUB_PATH
         echo "C:\\ProgramData\\chocolatey\\lib\\ninja\\tools" >> $GITHUB_PATH
       shell: bash
     - name: Configure Conan

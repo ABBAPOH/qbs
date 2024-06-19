@@ -222,10 +222,14 @@ function configure(installDirectory, moduleName, outputBaseDir, jsonProbe) {
     const isForImport = targetOS.includes("windows")
     const libraryTypes = getLibraryTypes(moduleInfo.options);
     libraryTypes.forEach(function(libraryType){
+        console.info("searching for " + JSON.stringify(libraryType));
         const cppInfoLibs = cppInfo.libs === null ? [] : cppInfo.libs;
+        console.info("cppInfoLibs=" + JSON.stringify(cppInfoLibs));
         const libs = findLibs(cppInfoLibs, cppInfo.libdirs, libraryType, targetOS, isForImport)
             .concat(cppInfo.system_libs === null ? [] : cppInfo.system_libs);
+        console.info("libs=" + JSON.stringify(libs));
         const property = libraryType === "shared" ? "dynamicLibraries" : "staticLibraries";
+        console.info("property=" + JSON.stringify(property));
         writeCppProperty(property, libs);
     });
 

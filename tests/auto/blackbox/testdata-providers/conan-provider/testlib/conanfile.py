@@ -1,6 +1,5 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
-from conan.tools.files import collect_libs
 import os
 
 class ConanModuleProviderTestlib(ConanFile):
@@ -10,6 +9,8 @@ class ConanModuleProviderTestlib(ConanFile):
 
     exports_sources = "*.cpp", "*.h", "CMakeLists.txt"
     settings = "os", "compiler", "build_type", "arch"
+    options = {"shared": [True, False]}
+    default_options = {"shared": False}
 
     def requirements(self):
         self.requires("conanmoduleprovider.testlibdep/1.2.3")
@@ -33,4 +34,4 @@ class ConanModuleProviderTestlib(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = collect_libs(self)
+        self.cpp_info.libs = ['conanmoduleprovider.testlib']

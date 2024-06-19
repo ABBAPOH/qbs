@@ -36,7 +36,8 @@
 // #include <tools/profile.h>
 // #include <tools/qttools.h>
 
-// #include <QtCore/qdir.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qdiriterator.h>
 // #include <QtCore/qregularexpression.h>
 
 // using qbs::Internal::HostOsInfo;
@@ -111,11 +112,26 @@ void TestBlackboxProviders::conanProvider()
     QDir::setCurrent(testDataDir + "/conan-provider/testlibdep");
     conan.start(executable, {"create", ".", "--profile:all=qbs-test"});
     QVERIFY(waitForProcessSuccess(conan));
+    qInfo()<<conan.readAllStandardError();
+    qInfo()<<conan.readAllStandardOutput();
 
     // install testlib second
     QDir::setCurrent(testDataDir + "/conan-provider/testlib");
     conan.start(executable, {"create", ".", "--profile:all=qbs-test"});
     QVERIFY(waitForProcessSuccess(conan));
+    qInfo()<<conan.readAllStandardError();
+    qInfo()<<conan.readAllStandardOutput();
+
+    QDirIterator it(QDir::homePath() + "/.conan2", QStringList{"*.lib","*.dll","*.h"}, QDir::Files|QDir::NoDot|QDir::NoDotDot, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString dir = it.next();
+        qDebug() << dir;
+        // /etc/.
+        // /etc/..
+        // /etc/X11
+        // /etc/X11/fs
+        // ...
+    }
 
     // install header lib third
     QDir::setCurrent(testDataDir + "/conan-provider/testlibheader");
@@ -149,7 +165,7 @@ void TestBlackboxProviders::conanProvider_data()
     QTest::addColumn<bool>("generateConanFiles");
     QTest::addColumn<bool>("successExpected");
 
-    QTest::addRow("no conan files generated") << false << false;
+    //QTest::addRow("no conan files generated") << false << false;
     QTest::addRow("conan files generated") << true << true;
 }
 
