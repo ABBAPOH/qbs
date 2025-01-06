@@ -338,15 +338,9 @@ void ScriptEngine::checkContext(const QString &operation,
             QBS_ASSERT(false, continue);
             break;
         }
-        if (!m_evalPositions.empty()) {
-            const JSValue exVal = JS_NewObject(m_context);
-            const auto &[file, line] = m_evalPositions.top();
-            build_backtrace(m_context, exVal, file.toUtf8().constData(), line, 0);
-            const JsException ex(m_context, exVal, {});
-            m_logger.printWarning(ErrorInfo(warning, ex.stackTrace()));
-        } else {
-            m_logger.printWarning(ErrorInfo(warning));
-        }
+        const JSValue exVal = JS_NewError(m_context);
+        const JsException ex(m_context, exVal, JS_GetBacktrace(m_context), {});
+        m_logger.printWarning(ErrorInfo(warning, ex.stackTrace()));
         return;
     }
 }
@@ -871,7 +865,7 @@ JSClassID ScriptEngine::registerClass(const char *name, JSClassCall *constructor
     JSClassID id = 0;
     const auto classIt = m_classes.constFind(QLatin1String(name));
     if (classIt == m_classes.constEnd()) {
-        JS_NewClassID(&id);
+        JS_NewClassID(m_jsRuntime, &id);
         const auto it = getProperty
                 ? m_exoticMethods.insert(id, JSClassExoticMethods{getProperty, getPropertyNames})
                 : m_exoticMethods.end();
@@ -1083,7 +1077,7 @@ ScriptEngine::PropertyCacheKey::PropertyCacheKey(QString moduleName,
 
 JsException ScriptEngine::checkAndClearException(const CodeLocation &fallbackLocation) const
 {
-    return {m_context, JS_GetException(m_context), fallbackLocation};
+    return {m_context, JS_GetException(m_context), JS_GetBacktrace(m_context), fallbackLocation};
 }
 
 void ScriptEngine::clearRequestedProperties()

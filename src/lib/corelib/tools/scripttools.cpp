@@ -89,7 +89,11 @@ JsException::JsException(JsException &&other) noexcept
     other.m_exception = JS_NULL;
 }
 
-JsException::~JsException() { JS_FreeValue(m_ctx, m_exception); }
+JsException::~JsException()
+{
+    JS_FreeValue(m_ctx, m_exception);
+    JS_FreeValue(m_ctx, m_backtrace);
+}
 
 QString JsException::message() const
 {
@@ -113,8 +117,7 @@ QString JsException::message() const
 
 const QStringList JsException::stackTrace() const
 {
-    return getJsStringProperty(m_ctx, m_exception, QLatin1String("stack"))
-            .split(QLatin1Char('\n'), Qt::SkipEmptyParts);
+    return getJsString(m_ctx, m_backtrace).split(QLatin1Char('\n'), Qt::SkipEmptyParts);
 }
 
 ErrorInfo JsException::toErrorInfo() const
