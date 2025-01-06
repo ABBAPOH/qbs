@@ -186,7 +186,7 @@ public:
     JsException(const JsException &) = delete;
     JsException &operator=(const JsException &) = delete;
 
-    operator bool() const { return !JS_IsNull(m_exception); }
+    operator bool() const { return m_exception.tag != JS_TAG_UNINITIALIZED; }
     QString message() const;
     const QStringList stackTrace() const;
     ErrorInfo toErrorInfo() const;

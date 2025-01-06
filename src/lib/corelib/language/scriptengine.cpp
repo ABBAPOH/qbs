@@ -341,7 +341,7 @@ void ScriptEngine::checkContext(const QString &operation,
         if (!m_evalPositions.empty()) {
             const JSValue exVal = JS_NewObject(m_context);
             const auto &[file, line] = m_evalPositions.top();
-            build_backtrace(m_context, exVal, file.toUtf8().constData(), line, 0);
+            build_backtrace(m_context, exVal, JS_UNDEFINED, file.toUtf8().constData(), line, 0, 0);
             const JsException ex(m_context, exVal, {});
             m_logger.printWarning(ErrorInfo(warning, ex.stackTrace()));
         } else {
@@ -871,7 +871,7 @@ JSClassID ScriptEngine::registerClass(const char *name, JSClassCall *constructor
     JSClassID id = 0;
     const auto classIt = m_classes.constFind(QLatin1String(name));
     if (classIt == m_classes.constEnd()) {
-        JS_NewClassID(&id);
+        JS_NewClassID(m_jsRuntime, &id);
         const auto it = getProperty
                 ? m_exoticMethods.insert(id, JSClassExoticMethods{getProperty, getPropertyNames})
                 : m_exoticMethods.end();

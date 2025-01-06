@@ -25,6 +25,7 @@ Product {
         return res;
     }
     cpp.cxxLanguageVersion: "c++20"
+    cpp.cLanguageVersion: qbs.toolchain.contains("msvc") ? "c11" : "gnu11"
     cpp.enableExceptions: true
     cpp.rpaths: qbsbuildconfig.libRPaths
     cpp.minimumMacosVersion: "11.0"
