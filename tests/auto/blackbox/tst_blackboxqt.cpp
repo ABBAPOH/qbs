@@ -484,9 +484,10 @@ void TestBlackboxQt::noRelinkOnQDebug()
     const bool isGCCLike = m_qbsStdout.contains("is GCC: true");
     const bool isMingw = m_qbsStdout.contains("is MinGW: true");
     const bool isDarwin = m_qbsStdout.contains("is Darwin: true");
+    const bool isStaticQt = m_qbsStdout.contains("is static qt: true");
     if (!isGCCLike)
         expectRelink = false;
-    else if (isMingw || isDarwin)
+    else if (isMingw || isDarwin || isStaticQt)
         expectRelink = true;
 
     // Initial build.
