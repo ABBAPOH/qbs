@@ -12,7 +12,6 @@ CppApplication {
         return false;
     }
     consoleApplication: true
-    install: true
     files: ["main.cpp" ]
     //![0]
     cpp.cxxLanguageVersion: "c++23"
