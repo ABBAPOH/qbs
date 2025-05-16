@@ -4,6 +4,7 @@ Project {
     CppApplication {
         name: "tool"
         consoleApplication: true
+        install: false
         property bool _testPlatform: {
             var result = qbs.targetPlatform === Host.platform();
             if (!result)
