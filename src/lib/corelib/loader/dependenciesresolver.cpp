@@ -1124,7 +1124,7 @@ QVariantMap safeToVariant(JSContext *ctx, const JSValue &v)
         if (JS_IsError(ctx, u))
             throw ErrorInfo(getJsString(ctx, u));
         const QString name = getJsString(ctx, prop);
-        result[name] = (JS_IsObject(u) && !JS_IsArray(ctx, u) && !JS_IsRegExp(u))
+        result[name] = (JS_IsObject(u) && !JS_IsArray(u) && !JS_IsRegExp(u))
                            ? safeToVariant(ctx, u)
                            : getJsVariant(ctx, u);
     });
