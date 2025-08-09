@@ -3,5 +3,5 @@
 
 int main()
 {
-    std::cout << "__" << VCS_REPO_STATE << "__" << std::endl;
+    std::cout << "==" << VCS_REPO_STATE << "==" << std::endl;
 }

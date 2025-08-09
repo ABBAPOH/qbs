@@ -1495,10 +1495,10 @@ void TestBlackbox::vcsGit()
     QVERIFY(waitForProcessSuccess(git));
 
     const auto getRepoStateFromApp = [this] {
-        const int startIndex = m_qbsStdout.indexOf("__");
+        const int startIndex = m_qbsStdout.indexOf("==");
         if (startIndex == -1)
             return QByteArray();
-        const int endIndex = m_qbsStdout.indexOf("__", startIndex + 2);
+        const int endIndex = m_qbsStdout.indexOf("==", startIndex + 2);
         if (endIndex == -1)
             return QByteArray();
         return m_qbsStdout.mid(startIndex + 2, endIndex - startIndex - 2);
@@ -1619,11 +1619,11 @@ void TestBlackbox::vcsSubversion()
     if (m_qbsStderr.contains("svn too old"))
         QSKIP("svn too old");
     QCOMPARE(retval, 0);
-    QVERIFY2(m_qbsStdout.contains("__1__"), m_qbsStdout.constData());
+    QVERIFY2(m_qbsStdout.contains("==1=="), m_qbsStdout.constData());
     QCOMPARE(runQbs(QbsRunParameters("run")), 0);
     QVERIFY2(!m_qbsStdout.contains("generating my-repo-state.h"), m_qbsStderr.constData());
     QVERIFY2(!m_qbsStdout.contains("compiling main.cpp"), m_qbsStderr.constData());
-    QVERIFY2(m_qbsStdout.contains("__1__"), m_qbsStdout.constData());
+    QVERIFY2(m_qbsStdout.contains("==1=="), m_qbsStdout.constData());
 
     // Run with changed source file.
     WAIT_FOR_NEW_TIMESTAMP();
@@ -1631,7 +1631,7 @@ void TestBlackbox::vcsSubversion()
     QCOMPARE(runQbs(QbsRunParameters("run")), 0);
     QVERIFY2(!m_qbsStdout.contains("generating my-repo-state.h"), m_qbsStderr.constData());
     QVERIFY2(m_qbsStdout.contains("compiling main.cpp"), m_qbsStderr.constData());
-    QVERIFY2(m_qbsStdout.contains("__1__"), m_qbsStdout.constData());
+    QVERIFY2(m_qbsStdout.contains("==1=="), m_qbsStdout.constData());
 
     // Add new file to repo.
     WAIT_FOR_NEW_TIMESTAMP();
@@ -1641,7 +1641,7 @@ void TestBlackbox::vcsSubversion()
     proc.start(svnFilePath, QStringList({"commit", "-m", "blubb!"}));
     QVERIFY(waitForProcessSuccess(proc));
     QCOMPARE(runQbs(QbsRunParameters("run")), 0);
-    QVERIFY2(m_qbsStdout.contains("__2__"), m_qbsStdout.constData());
+    QVERIFY2(m_qbsStdout.contains("==2=="), m_qbsStdout.constData());
 }
 
 void TestBlackbox::versionCheck()
