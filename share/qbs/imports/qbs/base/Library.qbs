@@ -45,18 +45,18 @@ NativeBinary {
     installDir: {
         if (isForAndroid)
             return undefined;
-        if (isForDarwin && bundle.isBundle && config.install.installFrameworks)
-            return config.install.frameworksInstallDir;
-        if (isStaticLibrary && config.install.installStaticLibraries)
-            return config.install.staticLibrariesInstallDir;
-        if (isDynamicLibrary && config.install.installDynamicLibraries)
-            return config.install.dynamicLibrariesInstallDir;
+        if (isForDarwin && bundle.isBundle && config.install.frameworks)
+            return config.install.frameworksDirectory;
+        if (isStaticLibrary && config.install.staticLibraries)
+            return config.install.staticLibrariesDirectory;
+        if (isDynamicLibrary && config.install.dynamicLibraries)
+            return config.install.dynamicLibrariesDirectory;
         return undefined;
     }
 
-    property bool installImportLib: config.install.installImportLibraries
-    property string importLibInstallDir: config.install.importLibrariesInstallDir
-    debugInformationInstallDir: config.install.debugInformationInstallDir || installDir
+    property bool installImportLib: config.install.importLibraries
+    property string importLibInstallDir: config.install.importLibrariesDirectory
+    debugInformationInstallDir: config.install.debugInformationDirectory || installDir
 
     Group {
         condition: install && _installable

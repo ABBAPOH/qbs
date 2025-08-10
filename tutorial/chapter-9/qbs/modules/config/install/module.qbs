@@ -1,3 +1,3 @@
 ConfigInstall {
-    installImportLibraries: true
+    importLibraries: true
 }

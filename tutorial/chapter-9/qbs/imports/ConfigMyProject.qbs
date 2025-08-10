@@ -20,7 +20,7 @@ Module {
                     cpp.rpathOrigin,
                     FileInfo.relativePath(
                         FileInfo.joinPaths('/', product.installDir),
-                        FileInfo.joinPaths('/', config.install.dynamicLibrariesInstallDir)))];
+                        FileInfo.joinPaths('/', config.install.dynamicLibrariesDirectory)))];
         }
         return [];
     }

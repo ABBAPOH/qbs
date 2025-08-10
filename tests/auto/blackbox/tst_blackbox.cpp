@@ -4953,44 +4953,44 @@ void TestBlackbox::installLocations()
     if (!binDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths ? "modules.installpaths.bin:"
-                                                 : "modules.config.install.binariesInstallDir:")
+                                                 : "modules.config.install.binariesDirectory:")
                               : "products.theapp.installDir:";
         params.arguments.push_back(prop + binDir);
         if (useModule && !useInstallPaths) {
-            params.arguments.push_back("modules.config.install.applicationsInstallDir:" + binDir);
+            params.arguments.push_back("modules.config.install.applicationsDirectory:" + binDir);
         }
     }
     if (!dllDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths
                                      ? "modules.installpaths.lib:"
-                                     : "modules.config.install.dynamicLibrariesInstallDir:")
+                                     : "modules.config.install.dynamicLibrariesDirectory:")
                               : "products.thelib.installDir:";
         params.arguments.push_back(prop + dllDir);
         if (useModule && !useInstallPaths) {
-            params.arguments.push_back("modules.config.install.frameworksInstallDir:" + dllDir);
+            params.arguments.push_back("modules.config.install.frameworksDirectory:" + dllDir);
         }
     }
     if (!libDir.isEmpty()) {
-        const auto prop = useModule ? "modules.config.install.importLibrariesInstallDir:"
+        const auto prop = useModule ? "modules.config.install.importLibrariesDirectory:"
                                     : "products.thelib.importLibInstallDir:";
         params.arguments.push_back(prop + libDir);
     }
     if (!pluginDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths ? "modules.installpaths.plugins:"
-                                                 : "modules.config.install.pluginsInstallDir:")
+                                                 : "modules.config.install.pluginsDirectory:")
                               : "products.theplugin.installDir:";
         params.arguments.push_back(prop + pluginDir);
         if (useModule && !useInstallPaths) {
             params.arguments.push_back(
-                "modules.config.install.loadableModulesInstallDir:" + pluginDir);
+                "modules.config.install.loadableModulesDirectory:" + pluginDir);
         }
     }
     if (!dsymDir.isEmpty()) {
         if (useModule) {
             params.arguments.push_back(
-                "modules.config.install.debugInformationInstallDir:" + dsymDir);
+                "modules.config.install.debugInformationDirectory:" + dsymDir);
         } else {
             params.arguments.push_back("products.theapp.debugInformationInstallDir:" + dsymDir);
             params.arguments.push_back("products.thelib.debugInformationInstallDir:" + dsymDir);

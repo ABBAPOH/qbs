@@ -40,19 +40,19 @@
 */
 
 /*!
-    \qmlproperty string ConfigInstall::applicationsInstallDir
+    \qmlproperty string ConfigInstall::applicationsDirectory
     The directory where application bundles should be installed on Apple platforms.
     \defaultvalue \l{installpaths::applications}{installpaths.applications}
 */
 
 /*!
-    \qmlproperty string ConfigInstall::binariesInstallDir
+    \qmlproperty string ConfigInstall::binariesDirectory
     The directory where binaries should be installed.
     \defaultvalue \l{installpaths::bin}{installpaths.bin}
 */
 
 /*!
-    \qmlproperty string ConfigInstall::debugInformationInstallDir
+    \qmlproperty string ConfigInstall::debugInformationDirectory
     The directory where debug information should be installed.
 
     If not set, the value is auto-detected based on item type installing debug info into the
@@ -62,21 +62,21 @@
 */
 
 /*!
-    \qmlproperty string ConfigInstall::dynamicLibrariesInstallDir
+    \qmlproperty string ConfigInstall::dynamicLibrariesDirectory
     The directory where dynamic libraries should be installed.
     \defaultvalue \l{installpaths::bin}{installpaths.bin} on Windows,
     \l{installpaths::lib}{installpaths.lib} otherwise
 */
 
 /*!
-    \qmlproperty string ConfigInstall::frameworksInstallDir
+    \qmlproperty string ConfigInstall::frameworksDirectory
     The directory where frameworks should be installed.
     \defaultvalue \l{installpaths::library}{installpaths.library} + \c{"/"}
         + \l{installpaths::frameworks}{installpaths.frameworks}
 */
 
 /*!
-    \qmlproperty string ConfigInstall::importLibInstallDir
+    \qmlproperty string ConfigInstall::importLibrariesDirectory
     The directory where import libraries should be installed.
     \defaultvalue \l{installpaths::lib}{installpaths.lib}
 */
@@ -88,62 +88,62 @@
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installDebugInformation
+    \qmlproperty bool ConfigInstall::debugInformation
     Controls whether debug information should be installed.
     \defaultvalue \l{install}
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installDynamicLibraries
+    \qmlproperty bool ConfigInstall::dynamicLibraries
     Controls whether dynamic libraries should be installed.
     \defaultvalue \l{install}
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installFrameworks
+    \qmlproperty bool ConfigInstall::frameworks
     Controls whether frameworks should be installed.
     \defaultvalue \l{install}
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installImportLibraries
+    \qmlproperty bool ConfigInstall::importLibraries
     Controls whether import libraries should be installed (relevant for Windows dynamic libraries).
     \defaultvalue \c false
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installLoadableModules
+    \qmlproperty bool ConfigInstall::loadableModules
     Controls whether loadable modules should be installed.
     \defaultvalue \l{install}
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installPlugins
+    \qmlproperty bool ConfigInstall::plugins
     Controls whether plugins should be installed.
     \defaultvalue \l{install}
 */
 
 /*!
-    \qmlproperty bool ConfigInstall::installStaticLibraries
+    \qmlproperty bool ConfigInstall::staticLibraries
     Controls whether static libraries should be installed.
     \defaultvalue \c false
 */
 
 /*!
-    \qmlproperty string ConfigInstall::loadableModulesInstallDir
+    \qmlproperty string ConfigInstall::loadableModulesDirectory
     The directory where loadable modules should be installed.
     \defaultvalue \l{installpaths::library}{installpaths.library} + \c{"/"}
         + \l{installpaths::frameworks}{installpaths.frameworks}
 */
 
 /*!
-    \qmlproperty string ConfigInstall::pluginsInstallDir
+    \qmlproperty string ConfigInstall::pluginsDirectory
     The directory where plugins should be installed.
     \defaultvalue \l{installpaths::plugins}{installpaths.plugins}
 */
 
 /*!
-    \qmlproperty string ConfigInstall::staticLibrariesInstallDir
+    \qmlproperty string ConfigInstall::staticLibrariesDirectory
     The directory where static libraries should be installed.
     \defaultvalue \l{installpaths::lib}{installpaths.lib}
 */

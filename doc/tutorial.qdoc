@@ -431,20 +431,20 @@
     \c{qbs/modules/config/build} directory, near the \c{qbs/imports} directory:
     \code
         // qbs/modules/config/build/module.qbs
-        ConfigBuild {
+        ConfigInstall {
         }
     \endcode
-    Here we inherit the \l{ConfigBuild} item in order to re-use its properies. Since custom
+    Here we inherit the \l{ConfigInstall} item in order to re-use its properies. Since custom
     \l{Project::qbsSearchPaths}{qbsSearchPaths} are serched first, now our version
     will be used instead of built-in one.
 
     First, let's change the default value of the
-    \l{ConfigBuild::installImportLibraries}{installImportLibraries} in order to install import libraries
-    on Windows:
+    \l{ConfigInstall::importLibraries}{config.install.importLibraries} in order to install
+    import libraries on Windows:
     \code
         // qbs/modules/config/build/module.qbs
-        ConfigBuild {
-            installImportLibraries: true
+        ConfigInstall {
+            importLibraries: true
         }
     \endcode
 
@@ -496,7 +496,7 @@
     Here, we inject the dependency on the \l{cpp} module and calculate the \c{libRPaths} property.
     This is a relative path from the \c{product.installDir} (which is either \c{"bin"}
     or \c{"lib"}, depending on product type) to
-    \l{ConfigBuild::dynamicLibrariesInstallDir}{dynamicLibrariesInstallDir} (which is \c{"lib"}
+    \l{ConfigInstall::dynamicLibrariesDirectory}{dynamicLibrariesDirectory} (which is \c{"lib"}
     by default). Finally, we set \l{cpp::rpaths}{cpp.rpaths} to this property. This way, those
     \c rpaths will be automatically exported to all products that depend on the
     \c{config.myproject} module.
@@ -584,15 +584,15 @@
     \endcode
 
     \note \QBS does not install static libraries by default, thats why we set the
-    \l{ConfigBuild::installStaticLibraries}{installStaticLibraries} property to \c{true} to enforce
-    installation of the static library. We can also change the default in the \c{config.install}
-    module:
+    \l{ConfigInstall::staticLibraries}{config.install.staticLibraries} property to \c{true} to
+    enforce installation of the static library. We can also change the default in the
+    \c{config.install} module:
     \code
     // qbs/modules/config/build/module.qbs
-    ConfigBuild {
+    ConfigInstall {
         ...
-        installImportLibraries: true
-        installStaticLibraries: true
+        importLibraries: true
+        staticLibraries: true
         ...
     }
     \endcode

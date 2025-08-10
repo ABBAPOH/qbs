@@ -31,6 +31,6 @@
 
 DynamicLibrary {
     Depends { name: "config.install" }
-    installDir: config.install.installPlugins ? config.install.pluginsInstallDir : undefined
-    debugInformationInstallDir: config.install.debugInformationInstallDir || installDir
+    installDir: config.install.plugins ? config.install.pluginsDirectory : undefined
+    debugInformationInstallDir: config.install.debugInformationDirectory || installDir
 }
