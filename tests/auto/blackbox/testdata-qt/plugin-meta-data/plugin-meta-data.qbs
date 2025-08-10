@@ -26,7 +26,7 @@ Project {
             condition: qbs.targetOS.includes("unix")
             cpp.rpaths: [cpp.rpathOrigin]
         }
-        config.build.binariesInstallDir: ""
+        config.install.binariesInstallDir: ""
 
         files: ["app.cpp"]
     }
@@ -47,8 +47,8 @@ Project {
         cpp.sonamePrefix: qbs.targetOS.includes("darwin") ? "@rpath" : undefined
         cpp.includePaths: ["."]
         Qt.core.pluginMetaData: ["theKey=theValue"]
-        config.build.dynamicLibrariesInstallDir: ""
-        config.build.staticLibrariesInstallDir: ""
+        config.install.dynamicLibrariesInstallDir: ""
+        config.install.staticLibrariesInstallDir: ""
 
         files: ["theplugin.cpp"]
 

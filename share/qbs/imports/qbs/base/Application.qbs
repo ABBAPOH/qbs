@@ -60,11 +60,11 @@ NativeBinary {
     }
     aggregate: base
 
-    Depends { name: "config.build" }
-    install: config.build.install && !isForAndroid
-    installDir: isBundle ? config.build.applicationsInstallDir : config.build.binariesInstallDir
-    installDebugInformation: config.build.installDebugInformation && !isForAndroid
-    debugInformationInstallDir: config.build.debugInformationInstallDir || installDir
+    Depends { name: "config.install" }
+    install: config.install.install && !isForAndroid
+    installDir: isBundle ? config.install.applicationsInstallDir : config.install.binariesInstallDir
+    installDebugInformation: config.install.installDebugInformation && !isForAndroid
+    debugInformationInstallDir: config.install.debugInformationInstallDir || installDir
 
     Group {
         condition: install && _installable

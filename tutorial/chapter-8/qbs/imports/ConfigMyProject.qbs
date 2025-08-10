@@ -3,7 +3,7 @@ Module {
 
     Depends { name: "cpp" }
     Depends { name: "installpaths" }
-    Depends { name: "config.build" }
+    Depends { name: "config.install" }
 
     property bool installPublicHeaders: false
     property bool staticBuild: false
@@ -15,7 +15,7 @@ Module {
                     cpp.rpathOrigin,
                     FileInfo.relativePath(
                         FileInfo.joinPaths('/', product.installDir),
-                        FileInfo.joinPaths('/', config.build.dynamicLibrariesInstallDir)))];
+                        FileInfo.joinPaths('/', config.install.dynamicLibrariesInstallDir)))];
         }
         return [];
     }

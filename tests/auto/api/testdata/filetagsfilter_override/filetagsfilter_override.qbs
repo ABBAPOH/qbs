@@ -2,7 +2,7 @@ import "InstalledApp.qbs" as InstalledApp
 
 InstalledApp {
     files: "main.cpp"
-    config.build.install: false
+    config.install.install: false
     Group {
         fileTagsFilter: product.type
         qbs.install: true

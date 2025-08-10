@@ -1,3 +1,0 @@
-ConfigBuild {
-    installImportLibs: true
-}

@@ -30,7 +30,7 @@
 
 Plugin {
     type: isForDarwin ? ["loadablemodule"] : base
-    installDir: config.build.installLoadableModules && isForDarwin && bundle.isBundle
-        ? config.build.loadableModulesInstallDir
+    installDir: config.install.installLoadableModules && isForDarwin && bundle.isBundle
+        ? config.install.loadableModulesInstallDir
         : base
 }

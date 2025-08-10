@@ -427,9 +427,6 @@
     in the \l{Project} file, but that would make it very convoluted. Also, accessing the top-level
     project all the way from products makes things strongly tied.
 
-    \QBS provides the \l{config.build} module that allows to configure built-in items. However,
-    it may be desirable change properties default values to to extend it with custom properties.
-
     Let's create a file named \c{module.qbs} and put it into the
     \c{qbs/modules/config/build} directory, near the \c{qbs/imports} directory:
     \code
@@ -451,10 +448,10 @@
         }
     \endcode
 
-    We could extend the \l{config.build} module with additional properties, but that could create
+    We could extend the \l{config.install} module with additional properties, but that could create
     collisions when someone tries to include the source code of you project into their project.
     Thus, we will create a new \c{config.myproject} module and use the same approach with the base
-    item as \QBS does for the \c{config.build} module.
+    item as \QBS does for the \c{config.install} module.
 
     Let's create a new item and add a new property to it:
     \snippet ../tutorial/chapter-7/qbs/imports/ConfigMyProject.qbs 0
@@ -580,7 +577,7 @@
         libmylib.1.so
         libmylib.so
     $ rm -r default
-    $ qbs resolve modules.config.myproject.staticBuild:true modules.config.build.installStaticLibrary:true && qbs build
+    $ qbs resolve modules.config.myproject.staticBuild:true modules.config.install.installStaticLibrary:true && qbs build
     ...
     $ $ ls default/install-root/usr/local/lib/
         libmylib.a
@@ -588,7 +585,7 @@
 
     \note \QBS does not install static libraries by default, thats why we set the
     \l{ConfigBuild::installStaticLibraries}{installStaticLibraries} property to \c{true} to enforce
-    installation of the static library. We can also change the default in the \c{config.build}
+    installation of the static library. We can also change the default in the \c{config.install}
     module:
     \code
     // qbs/modules/config/build/module.qbs

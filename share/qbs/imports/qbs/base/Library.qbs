@@ -39,24 +39,24 @@ NativeBinary {
     readonly property bool isStaticLibrary: type.contains("staticlibrary")
     readonly property bool isLoadableModule: type.contains("loadablemodule")
 
-    Depends { name: "config.build" }
+    Depends { name: "config.install" }
 
     install: installDir !== undefined
     installDir: {
         if (isForAndroid)
             return undefined;
-        if (isForDarwin && bundle.isBundle && config.build.installFrameworks)
-            return config.build.frameworksInstallDir;
-        if (isStaticLibrary && config.build.installStaticLibraries)
-            return config.build.staticLibrariesInstallDir;
-        if (isDynamicLibrary && config.build.installDynamicLibraries)
-            return config.build.dynamicLibrariesInstallDir;
+        if (isForDarwin && bundle.isBundle && config.install.installFrameworks)
+            return config.install.frameworksInstallDir;
+        if (isStaticLibrary && config.install.installStaticLibraries)
+            return config.install.staticLibrariesInstallDir;
+        if (isDynamicLibrary && config.install.installDynamicLibraries)
+            return config.install.dynamicLibrariesInstallDir;
         return undefined;
     }
 
-    property bool installImportLib: config.build.installImportLibraries
-    property string importLibInstallDir: config.build.importLibrariesInstallDir
-    debugInformationInstallDir: config.build.debugInformationInstallDir || installDir
+    property bool installImportLib: config.install.installImportLibraries
+    property string importLibInstallDir: config.install.importLibrariesInstallDir
+    debugInformationInstallDir: config.install.debugInformationInstallDir || installDir
 
     Group {
         condition: install && _installable

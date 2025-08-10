@@ -4929,7 +4929,7 @@ void TestBlackbox::installLocations_data()
     QTest::newRow("explicit values, direct")
         << QString("bindir") << QString("dlldir") << QString("libdir") << QString("pluginDir")
         << QString("dsymDir") << false << false;
-    QTest::newRow("explicit values, using config.build module")
+    QTest::newRow("explicit values, using config.install module")
         << QString("bindir") << QString("dlldir") << QString("libdir") << QString("pluginDir")
         << QString("dsymDir") << true << false;
     QTest::newRow("explicit values, using installpaths module")
@@ -4953,44 +4953,44 @@ void TestBlackbox::installLocations()
     if (!binDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths ? "modules.installpaths.bin:"
-                                                 : "modules.config.build.binariesInstallDir:")
+                                                 : "modules.config.install.binariesInstallDir:")
                               : "products.theapp.installDir:";
         params.arguments.push_back(prop + binDir);
         if (useModule && !useInstallPaths) {
-            params.arguments.push_back("modules.config.build.applicationsInstallDir:" + binDir);
+            params.arguments.push_back("modules.config.install.applicationsInstallDir:" + binDir);
         }
     }
     if (!dllDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths
                                      ? "modules.installpaths.lib:"
-                                     : "modules.config.build.dynamicLibrariesInstallDir:")
+                                     : "modules.config.install.dynamicLibrariesInstallDir:")
                               : "products.thelib.installDir:";
         params.arguments.push_back(prop + dllDir);
         if (useModule && !useInstallPaths) {
-            params.arguments.push_back("modules.config.build.frameworksInstallDir:" + dllDir);
+            params.arguments.push_back("modules.config.install.frameworksInstallDir:" + dllDir);
         }
     }
     if (!libDir.isEmpty()) {
-        const auto prop = useModule ? "modules.config.build.importLibrariesInstallDir:"
+        const auto prop = useModule ? "modules.config.install.importLibrariesInstallDir:"
                                     : "products.thelib.importLibInstallDir:";
         params.arguments.push_back(prop + libDir);
     }
     if (!pluginDir.isEmpty()) {
         const auto prop = useModule
                               ? (useInstallPaths ? "modules.installpaths.plugins:"
-                                                 : "modules.config.build.pluginsInstallDir:")
+                                                 : "modules.config.install.pluginsInstallDir:")
                               : "products.theplugin.installDir:";
         params.arguments.push_back(prop + pluginDir);
         if (useModule && !useInstallPaths) {
             params.arguments.push_back(
-                "modules.config.build.loadableModulesInstallDir:" + pluginDir);
+                "modules.config.install.loadableModulesInstallDir:" + pluginDir);
         }
     }
     if (!dsymDir.isEmpty()) {
         if (useModule) {
             params.arguments.push_back(
-                "modules.config.build.debugInformationInstallDir:" + dsymDir);
+                "modules.config.install.debugInformationInstallDir:" + dsymDir);
         } else {
             params.arguments.push_back("products.theapp.debugInformationInstallDir:" + dsymDir);
             params.arguments.push_back("products.thelib.debugInformationInstallDir:" + dsymDir);

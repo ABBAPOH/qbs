@@ -1,0 +1,3 @@
+ConfigInstall {
+    installImportLibraries: true
+}

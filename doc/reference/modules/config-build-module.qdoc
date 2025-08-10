@@ -26,21 +26,21 @@
 ****************************************************************************/
 
 /*!
-    \qmltype config.build
+    \qmltype config.install
     \inqmlmodule QbsModules
     \since Qbs 3.1
 
     \brief Provides properties for configuring installation paths and rules for various build
     artifacts.
 
-    The \c{config.build} module contains properties that configure built-in
+    The \c{config.install} module contains properties that configure built-in
     items such as \l{Application}, \l{Library}, and \l{Plugin}.
 
     \section2 Example usage
 
     \code
-    qbs modules.config.build.staticLibraryInstallDir:opt/lib
+    qbs modules.config.install.staticLibraryInstallDir:opt/lib
     \endcode
 
-    For the list of available properties, see the \l{ConfigBuild} item.
+    For the list of available properties, see the \l{ConfigInstall} item.
 */
