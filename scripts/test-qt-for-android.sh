@@ -44,6 +44,8 @@ export PATH="$1:$PATH"
 
 export LSAN_OPTIONS="suppressions=$( cd "$(dirname "$0")" ; pwd -P )/address-sanitizer-suppressions.txt:print_suppressions=0"
 
+sudo apt install -qq -y libasan8
+
 #
 # These are set outside of this script, for instance in the Docker image
 #
