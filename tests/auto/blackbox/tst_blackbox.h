@@ -324,6 +324,7 @@ private slots:
     void sanitizer();
     void scannerItem_data();
     void scannerItem();
+    void scannerProperties();
     void scannerChangeTracking();
     void scanResultInOtherProduct();
     void scanResultInNonDependency();

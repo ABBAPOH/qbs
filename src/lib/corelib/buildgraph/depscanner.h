@@ -46,6 +46,7 @@
 #include <tools/scripttools.h>
 
 #include <QtCore/qstringlist.h>
+#include <QtCore/qvariant.h>
 
 #include <unordered_map>
 
@@ -67,8 +68,14 @@ public:
 
     QString id() const;
 
+    struct ScanResult
+    {
+        QStringList dependencies;
+        QVariantMap scannerProperties;
+    };
+
     QStringList collectSearchPaths(Artifact *artifact);
-    QStringList collectDependencies(
+    ScanResult collectScanResult(
         Artifact *artifact, FileResourceBase *file, const char *fileTags);
     bool recursive() const;
     bool areModulePropertiesCompatible(
@@ -77,7 +84,17 @@ public:
 
 private:
     QString createId() const;
-    QStringList evaluate(
+    JSValue callScannerScript(
+        Artifact *artifact,
+        const FileResourceBase *fileToScan,
+        const PrivateScriptFunction &script,
+        const QString &errorMessagePrefix);
+    QStringList evaluateStringListScript(
+        Artifact *artifact,
+        const FileResourceBase *fileToScan,
+        const PrivateScriptFunction &script,
+        const QString &invalidReturnMessage);
+    ScanResult evaluateScanScript(
         Artifact *artifact,
         const FileResourceBase *fileToScan,
         const PrivateScriptFunction &script);
