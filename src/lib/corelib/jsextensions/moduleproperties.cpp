@@ -282,11 +282,6 @@ QVariantMap ModuleProperties::buildQbsScannersMap(const Artifact *artifact)
         return {};
 
     const RawScanResults &rawScanResults = buildData->rawScanResults;
-    const auto modulePropertiesPredicate
-        = [](const PropertyMapConstPtr &lhs, const PropertyMapConstPtr &rhs) {
-              return lhs == rhs || *lhs == *rhs;
-          };
-
     QVariantMap scannersCfg;
     for (const ResolvedScannerPtr &scanner : product->scanners) {
         bool matchesInput = false;
@@ -303,7 +298,9 @@ QVariantMap ModuleProperties::buildQbsScannersMap(const Artifact *artifact)
             artifact,
             scanner->scannerId,
             artifact->properties,
-            modulePropertiesPredicate);
+            [&scanner](const PropertyMapConstPtr &lhs, const PropertyMapConstPtr &rhs) {
+                return areResolvedScannerModulePropertiesCompatible(*scanner, lhs, rhs);
+            });
         if (!scanData || scanData->rawScanResult.scannerProperties.isEmpty())
             continue;
 

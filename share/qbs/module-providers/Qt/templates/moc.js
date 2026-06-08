@@ -36,7 +36,8 @@ function args(product, input, outputs)
     var defines = product.cpp.compilerDefinesByLanguage;
     if (input.fileTags.contains("objcpp"))
         defines = ModUtils.flattenDictionary(defines["objcpp"]) || [];
-    else if (input.fileTags.contains("cpp") || input.fileTags.contains("hpp"))
+    else if (input.fileTags.contains("cpp") || input.fileTags.contains("cppm")
+             || input.fileTags.contains("hpp"))
         defines = ModUtils.flattenDictionary(defines["cpp"]) || [];
     else
         defines = [];
@@ -84,9 +85,27 @@ function fullPath(product)
     return product.Qt.core.libExecPath + '/' + product.Qt.core.mocName;
 }
 
+function mocInformation(input, product) {
+    var info = input.qbsScanners && input.qbsScanners["Qt.core.moc"];
+    if (!info)
+        return { hasQObjectMacro: false, hasPluginMetaDataMacro: false, mustCompile: false };
+    var hasQObjectMacro = !!info.hasQObjectMacro;
+    var hasPluginMetaDataMacro = !!info.hasPluginMetaDataMacro;
+    var mustCompile = false;
+    if (hasQObjectMacro && input.fileTags.includes("hpp")) {
+        var included = Utilities.includedMocCppBaseNames(input, product);
+        mustCompile = included.indexOf(input.completeBaseName) < 0;
+    }
+    return {
+        hasQObjectMacro: hasQObjectMacro,
+        hasPluginMetaDataMacro: hasPluginMetaDataMacro,
+        mustCompile: mustCompile,
+    };
+}
+
 function outputArtifacts(project, product, inputs, input)
 {
-    var mocInfo = QtMocScanner.apply(input);
+    var mocInfo = mocInformation(input, product);
     if (!mocInfo.hasQObjectMacro)
         return [];
     var artifact = { fileTags: ["unmocable"] };

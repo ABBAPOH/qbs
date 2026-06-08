@@ -47,15 +47,14 @@ Product {
         auxiliaryInputs: "src"
         outputFileTags: ["gen", "gen_embedded"]
         outputArtifacts: {
-            var info = input.qbsScanners["scan-auxiliary-inputs"].genScanner;
+            var info = input.qbsScanners.genScanner;
             if (!info || !info.hasMacro)
                 return [];
             var included = [];
             var srcArtifacts = product.artifacts["src"] || [];
             for (var i = 0; i < srcArtifacts.length; ++i) {
                 var srcInfo = srcArtifacts[i].qbsScanners
-                        && srcArtifacts[i].qbsScanners["scan-auxiliary-inputs"]
-                        && srcArtifacts[i].qbsScanners["scan-auxiliary-inputs"].genScanner;
+                        && srcArtifacts[i].qbsScanners.genScanner;
                 if (!srcInfo || !srcInfo.includedGenBaseNames)
                     continue;
                 for (var j = 0; j < srcInfo.includedGenBaseNames.length; ++j) {
