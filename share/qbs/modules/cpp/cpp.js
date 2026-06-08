@@ -137,6 +137,17 @@ function assemblerOutputArtifacts(input) {
     return artifacts;
 }
 
+function cxxModuleInformation(input) {
+    var info = input.qbsScanners && input.qbsScanners["cpp.cpp"];
+    if (!info)
+        return { providesModule: undefined, isInterfaceModule: false, requiresModules: [] };
+    return {
+        providesModule: info.providesModule,
+        isInterfaceModule: !!info.isInterfaceModule,
+        requiresModules: info.requiresModules || [],
+    };
+}
+
 function cxxModulesArtifacts(input) {
     var artifacts = [];
     if (input.cpp.forceUseCxxModules === false)
@@ -150,19 +161,13 @@ function cxxModulesArtifacts(input) {
         return artifacts;
     }
 
-    var moduleInformation = CppModulesScanner.apply(input);
+    var moduleInformation = cxxModuleInformation(input);
 
     if (moduleInformation.providesModule || moduleInformation.requiresModules.length > 0) {
         artifacts.push({
             filePath: FileInfo.joinPaths(Utilities.getHash(input.baseDir),
                                          input.fileName + input.cpp.moduleMapSuffix),
             fileTags: ["modulemap"],
-            // we can't use maps here only strings and lists
-            cpp: {
-                _providesModule: moduleInformation.providesModule,
-                _isInterfaceModule: moduleInformation.isInterfaceModule,
-                _requiresModules : moduleInformation.requiresModules,
-            },
         })
     }
     if (input.fileTags.includes("cppm")) {
@@ -679,11 +684,7 @@ function prepareModules(project, product, inputs, outputs, input, output) {
     if (cppModuleMap === undefined)
         return commands;
 
-    const moduleInformation = {
-        providesModule: cppModuleMap.cpp._providesModule,
-        isInterfaceModule: cppModuleMap.cpp._isInterfaceModule,
-        requiresModules: cppModuleMap.cpp._requiresModules,
-    };
+    const moduleInformation = cxxModuleInformation(input);
 
     // module info json is present only for cppm
     var cppModuleInfo = outputs["moduleinfo"];

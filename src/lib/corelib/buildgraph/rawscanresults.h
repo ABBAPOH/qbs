@@ -64,21 +64,11 @@ public:
     std::vector<RawScannedDependency> deps;
     FileTags additionalFileTags;
     QVariantMap scannerProperties;
-    // TODO: does this belong here?
-    QString providesModule;
-    bool isInterfaceModule{false};
-    QStringList requiresModules;
 
     template<PersistentPool::OpType opType>
     void completeSerializationOp(PersistentPool &pool)
     {
-        pool.serializationOp<opType>(
-            deps,
-            additionalFileTags,
-            scannerProperties,
-            providesModule,
-            isInterfaceModule,
-            requiresModules);
+        pool.serializationOp<opType>(deps, additionalFileTags, scannerProperties);
     }
 };
 
