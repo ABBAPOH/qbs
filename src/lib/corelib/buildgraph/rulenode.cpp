@@ -151,6 +151,8 @@ RuleNode::ApplicationResult RuleNode::apply(
     // If so, we need to scan even if the rule appears up-to-date.
     ArtifactSet inputsToScan = inputs;
     inputsToScan += collectInputsForOutOfDateOutputs(allCompatibleInputs);
+    if (!m_rule->auxiliaryInputs.empty())
+        inputsToScan.unite(RulesApplicator::collectAuxiliaryInputs(m_rule.get(), product.get()));
 
     const bool mustScan = mustApplyRule || !inputsToScan.empty();
 
