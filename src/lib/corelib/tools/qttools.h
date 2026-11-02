@@ -55,8 +55,8 @@ QT_BEGIN_NAMESPACE
 class QProcessEnvironment;
 QT_END_NAMESPACE
 
-namespace std {
-template<typename T1, typename T2> struct hash<std::pair<T1, T2>>
+template<typename T1, typename T2>
+struct std::hash<std::pair<T1, T2>>
 {
     size_t operator()(const pair<T1, T2> &x) const
     {
@@ -65,7 +65,7 @@ template<typename T1, typename T2> struct hash<std::pair<T1, T2>>
 };
 
 template <typename... Ts>
-struct hash<std::tuple<Ts...>>
+struct std::hash<std::tuple<Ts...>>
 {
 private:
     template<std::size_t... Ns>
@@ -84,7 +84,7 @@ public:
 };
 
 
-template<> struct hash<QStringList>
+template<> struct std::hash<QStringList>
 {
     std::size_t operator()(const QStringList &s) const noexcept
     {
@@ -92,12 +92,12 @@ template<> struct hash<QStringList>
     }
 };
 
-template<> struct hash<QVariant>
+template<> struct std::hash<QVariant>
 {
     size_t operator()(const QVariant &v) const noexcept;
 };
 
-template<> struct hash<QVariantList>
+template<> struct std::hash<QVariantList>
 {
     size_t operator()(const QVariantList &v) const noexcept
     {
@@ -105,7 +105,7 @@ template<> struct hash<QVariantList>
     }
 };
 
-template<> struct hash<QVariantMap>
+template<> struct std::hash<QVariantMap>
 {
     size_t operator()(const QVariantMap &v) const noexcept
     {
@@ -113,15 +113,13 @@ template<> struct hash<QVariantMap>
     }
 };
 
-template<> struct hash<QVariantHash>
+template<> struct std::hash<QVariantHash>
 {
     size_t operator()(const QVariantHash &v) const noexcept
     {
         return qbs::Internal::hashRange(v);
     }
 };
-
-} // namespace std
 
 QT_BEGIN_NAMESPACE
 

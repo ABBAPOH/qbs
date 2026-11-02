@@ -96,12 +96,12 @@ struct CpuCoreEntry final
     };
 
     // Required to compile in MSVC2015.
-    CpuCoreEntry(CpuCoreCode cc, QByteArray tf)
-        : coreCode(cc), targetFlag(std::move(tf))
+    CpuCoreEntry(CpuCoreCode cc, std::string_view tf)
+        : coreCode(cc), targetFlag(tf)
     {}
 
     CpuCoreCode coreCode = Arm7tdmi;
-    QByteArray targetFlag;
+    std::string_view targetFlag;
 };
 
 // Dictionary of known ARM CPU cores and its compiler options.
@@ -176,14 +176,15 @@ struct FpuCoreEntry final
     };
 
     // Required to compile in MSVC2015.
-    FpuCoreEntry(FpuCoreCode cc, FpuRegistersCount rc,
-                 QByteArray tf)
-        : coreCode(cc), regsCount(rc), targetFlag(std::move(tf))
+    FpuCoreEntry(FpuCoreCode cc, FpuRegistersCount rc, std::string_view tf)
+        : coreCode(cc)
+        , regsCount(rc)
+        , targetFlag(tf)
     {}
 
     FpuCoreCode coreCode = NoVfp;
     FpuRegistersCount regsCount = NoFpuRegisters;
-    QByteArray targetFlag;
+    std::string_view targetFlag;
 };
 
 // Dictionary of known ARM FPU cores and its compiler options.
@@ -198,6 +199,12 @@ const FpuCoreEntry fpusDict[] = {
     {FpuCoreEntry::Vfp5d16, FpuCoreEntry::Fpu16Registers, "vfpv5_d16"},
     {FpuCoreEntry::Vfp9s, FpuCoreEntry::NoFpuRegisters, "vfp9-s"},
 };
+
+bool equalsLatin1(const std::string_view flag, const QString &value)
+{
+    const QByteArray latin1 = value.toLatin1();
+    return flag == std::string_view(latin1.constData(), size_t(latin1.size()));
+}
 
 // Target page options.
 
@@ -221,7 +228,7 @@ struct TargetPageOptions final
         const auto cpuIt = std::find_if(std::cbegin(cpusDict), cpuEnd,
                                         [cpuValue](
                                         const CpuCoreEntry &entry) {
-            return entry.targetFlag == cpuValue.toLatin1();
+            return equalsLatin1(entry.targetFlag, cpuValue);
         });
         if (cpuIt != cpuEnd)
             targetCpu = cpuIt->coreCode;
@@ -233,7 +240,7 @@ struct TargetPageOptions final
         const auto fpuIt = std::find_if(std::cbegin(fpusDict), fpuEnd,
                                         [fpuValue](
                                         const FpuCoreEntry &entry) {
-            return entry.targetFlag == fpuValue.toLatin1();
+            return equalsLatin1(entry.targetFlag, fpuValue);
         });
         if (fpuIt != fpuEnd) {
             targetFpu = fpuIt->coreCode;
@@ -440,7 +447,7 @@ ArmGeneralSettingsGroup::ArmGeneralSettingsGroup(
 {
     Q_UNUSED(qbsProductDeps)
 
-    setName(QByteArrayLiteral("General"));
+    setGroupName(QByteArrayLiteral("General"));
     setArchiveVersion(kGeneralArchiveVersion);
     setDataVersion(kGeneralDataVersion);
     setDataDebugInfo(gen::utils::debugInformation(qbsProduct));

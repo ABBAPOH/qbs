@@ -82,12 +82,13 @@ void ProjectCreator::setupProject(Project *project)
             if (isSourceFile(dit.fileName()))
                 project->fileNames << dit.fileName();
         } else if (dit.fileInfo().isDir()) {
-            ProjectPtr subProject(new Project);
+            auto subProject = std::make_unique<Project>();
             subProject->dirName = dit.fileName();
             subProject->dirPath = dit.filePath();
             setupProject(subProject.get());
-            if (!subProject->fileNames.empty() || !subProject->subProjects.empty())
+            if (!subProject->fileNames.empty() || !subProject->subProjects.empty()) {
                 project->subProjects.push_back(std::move(subProject));
+            }
         }
     }
     project->fileNames.sort();

@@ -49,7 +49,7 @@ namespace qbs {
 namespace Internal {
 
 template <class C>
-typename C::value_type join(const C &container, const typename C::value_type &separator)
+C::value_type join(const C &container, const typename C::value_type &separator)
 {
     typename C::value_type out;
     if (!container.empty()) {
@@ -65,7 +65,7 @@ typename C::value_type join(const C &container, const typename C::value_type &se
 }
 
 template <class C>
-typename C::value_type join(const C &container, typename C::value_type::value_type separator)
+C::value_type join(const C &container, typename C::value_type::value_type separator)
 {
     typename C::value_type s;
     s.push_back(separator);
